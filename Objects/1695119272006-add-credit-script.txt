@@ -1,0 +1,50 @@
+<?php
+session_start();
+error_reporting(0);
+include('../dist/includes/dbcon.php');
+
+if (isset($_POST['addtocart'])) {
+    $prod_name = $_POST['prod_name'];
+    $cid = $_POST['cid'];
+    $qty = $_POST['qty'];
+    $price2 = $_POST['price'];
+    $cus_name = $_POST['cus_name'];
+    $cid2 = $_POST['cid2'];
+    $cust_id = $_POST['cust_id'];
+
+    // Check if prod_name already exists in the credit_temp table
+    $checkQuery = "SELECT COUNT(*) FROM credit_temp WHERE invoice_id='$prod_name'";
+    $result = mysqli_query($con, $checkQuery);
+    $row = mysqli_fetch_array($result);
+    $existingRecords = $row[0];
+
+    if ($existingRecords > 0) {
+        // Prod_name already exists, show an alert and reject the insertion
+        echo '<script>alert("Product already exists in the table. Please choose a different product.");</script>';
+    } else {
+        // Get the price of the selected option
+        $price = mysqli_fetch_assoc(mysqli_query($con, "SELECT price FROM draft_temp_trans WHERE temp_trans_id='$prod_name'"))['price'];
+
+        // Calculate the total amount
+        $Total = $qty * $price;
+
+        // Insert data into the "credit_temp" table
+        $query = "INSERT INTO credit_temp (name, amount, invoice_no, invoice_id,cust_id, qty, price) VALUES ('$cus_name', '$Total', '$cid2', '$prod_name','$cust_id','$qty','$price');";
+
+        if (mysqli_query($con, $query)) {
+            // Insertion was successful
+            echo "Data inserted successfully";
+        } else {
+            // Error occurred during insertion
+            echo "Error: " . mysqli_error($con);
+        }
+    }
+
+    mysqli_close($con);   
+
+    Header("Location: credit_note?order_no=" . urlencode($cust_id) . "&addtocart=");
+    exit();
+    
+}  
+
+?>
