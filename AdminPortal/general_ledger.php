@@ -270,104 +270,104 @@ endif;
                                             ?>
                                         </form>
                                         <table id="transaction_statement" class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>S/N</th>
-            <th>Date</th>
-            <th>Name</th>
-            <th>REFERENCE</th>
-            <th>TRANSACTION TYPE</th>
-            <th>MEMO/DESCRIPTION</th>
-            <th>SPLIT</th>
-            <th>AMOUNT</th>
-            <th>BALANCE</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        $totalSold = 0;
+                                            <thead>
+                                                <tr>
+                                                    <th>S/N</th>
+                                                    <th>Date</th>
+                                                    <th>Name</th>
+                                                    <th>REFERENCE</th>
+                                                    <th>TRANSACTION TYPE</th>
+                                                    <th>MEMO/DESCRIPTION</th>
+                                                    <th>SPLIT</th>
+                                                    <th>AMOUNT</th>
+                                                    <th>BALANCE</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $totalSold = 0;
 
-        while ($row = mysqli_fetch_array($query)) {
-            $totalSold = $row['credit'];
+                                                while ($row = mysqli_fetch_array($query)) {
+                                                    $totalSold = $row['credit'];
 
-            // Initialize total sales and expenses variables
-            $totalSales = 0;
-            $totalExpenses = 0;
+                                                    // Initialize total sales and expenses variables
+                                                    $totalSales = 0;
+                                                    $totalExpenses = 0;
 
-            // Fetch and calculate the total sales for this payment account
-            $salesQuery = mysqli_query($con, "SELECT SUM(amount_due) AS total_sales FROM sales WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
-            $salesRow = mysqli_fetch_array($salesQuery);
-            $totalSales = $salesRow['total_sales'];
+                                                    // Fetch and calculate the total sales for this payment account
+                                                    $salesQuery = mysqli_query($con, "SELECT SUM(amount_due) AS total_sales FROM sales WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
+                                                    $salesRow = mysqli_fetch_array($salesQuery);
+                                                    $totalSales = $salesRow['total_sales'];
 
-            // Fetch and calculate the total expenses for this payment account
-            $expensesQuery = mysqli_query($con, "SELECT SUM(amount) AS total_expenses FROM expenses_tb WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
-            $expensesRow = mysqli_fetch_array($expensesQuery);
-            $totalExpenses = $expensesRow['total_expenses'];
-        ?>
-            <tr>
-                <td><?php echo $row['reference']; ?></td>
-                <td><?php echo date("M d, Y", strtotime($row['transaction_date'])); ?></td>
-                <td><?php echo $row['name']; ?> <br>Current Balance</td>
-                <td><?php echo $row['reference']; ?></td>
-                <td><?php echo $row['transaction_code']; ?></td>
-                <td><?php echo $row['description']; ?></td>
-                <td><?php echo $row['debit']; ?></td>
-                <td></td>
-                <td><br> <?php echo 'K ' . number_format($totalSold, 2); ?></td>
-            </tr>
-            <tr>
-                <td colspan="9">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>View Details</th>
-                              
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="color:green; font-weight:bold;">Revenue</td>
-                            </tr>
-                            <?php
-                            $salesQuery = mysqli_query($con, "SELECT * FROM sales WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
-                            while ($salesRow = mysqli_fetch_array($salesQuery)) {
-                            ?>
-                                <tr>          
-                               <td ><?php echo 'Cash Sales' ?></td>                                                                                                                                                        
-                                </tr>
-                            
-                                <tr>                                                                                                                                                      
-                                    <td style="padding-left: 100rem !important;"><?php echo $salesRow['amount_due']; ?></td>
-                                </tr>
-                            <?php
-                            }
-                            ?>
-                            
-                            <tr>
-                                <td style="color:crimson; font-weight:bold;">Expenses</td>
-                            </tr>
-                            <?php
-                            $expensesQuery = mysqli_query($con, "SELECT * FROM expenses_tb WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
-                            while ($expensesRow = mysqli_fetch_array($expensesQuery)) {
-                            ?>
-                            <tr> 
-                                <td ><?php echo $expensesRow['category']; ?></td>                                                                                                       
-                                </tr>
-                                <tr>                                                                                        
-                                    <td style="padding-left: 100rem !important;"><?php echo $expensesRow['amount']; ?></td>
-                                </tr>
-                            <?php
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        <?php
-        }
-        ?>
-    </tbody>
-</table>
+                                                    // Fetch and calculate the total expenses for this payment account
+                                                    $expensesQuery = mysqli_query($con, "SELECT SUM(amount) AS total_expenses FROM expenses_tb WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
+                                                    $expensesRow = mysqli_fetch_array($expensesQuery);
+                                                    $totalExpenses = $expensesRow['total_expenses'];
+                                                ?>
+                                                    <tr>
+                                                        <td><?php echo $row['reference']; ?></td>
+                                                        <td><?php echo date("M d, Y", strtotime($row['transaction_date'])); ?></td>
+                                                        <td><?php echo $row['name']; ?> <br>Current Balance</td>
+                                                        <td><?php echo $row['reference']; ?></td>
+                                                        <td><?php echo $row['transaction_code']; ?></td>
+                                                        <td><?php echo $row['description']; ?></td>
+                                                        <td><?php echo $row['debit']; ?></td>
+                                                        <td></td>
+                                                        <td><br> <?php echo 'K ' . number_format($totalSold, 2); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="9">
+                                                            <table>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>View Details</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="color:green; font-weight:bold;">Revenue</td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $salesQuery = mysqli_query($con, "SELECT * FROM sales WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
+                                                                    while ($salesRow = mysqli_fetch_array($salesQuery)) {
+                                                                    ?>
+                                                                        <tr>
+                                                                            <td><?php echo 'Cash Sales' ?></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td style="padding-left: 90rem !important;"><?php echo 'K ' . number_format( $salesRow['amount_due'], 2); ?></td>
+                                                                        </tr>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
+
+                                                                    <tr>
+                                                                        <td style="color:crimson; font-weight:bold;">Expenses</td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $expensesQuery = mysqli_query($con, "SELECT * FROM expenses_tb WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
+                                                                    while ($expensesRow = mysqli_fetch_array($expensesQuery)) {
+                                                                    ?>
+                                                                        <tr>
+                                                                            <td><?php echo $expensesRow['category']; ?></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="padding-left: 90rem !important;"><?php echo 'K ' . number_format($expensesRow['amount'], 2); ?></td>
+                                                                        </tr>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                <?php
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
 
                                     </div>
                                 </div>
@@ -404,7 +404,7 @@ endif;
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
     <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>  
+    <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script>
         $(function() {
             $("#example1").DataTable();
@@ -518,4 +518,5 @@ endif;
         });
     </script>
 </body>
+
 </html>
