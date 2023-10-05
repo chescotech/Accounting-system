@@ -5,6 +5,7 @@ $id = $_SESSION['id'];
 include('../dist/includes/dbcon.php');
 include('Classes/DAO.php');
 require_once('../PHPmailer/sendmail.php');
+error_reporting(E_ALL);
 
 $discount = $_POST['discount'];
 $amount_due = $_POST['amount_due'];
@@ -15,8 +16,8 @@ $cid = 1;
 $branch = $_SESSION['branch'];
 $total = $amount_due - $discount;
 $orderNumber = (rand(50, 5000));
-$tendered = $_POST['tendered'];
-$change = $_POST['change'];
+$tendered = $_POST['amount_due'];
+$change = 0;
 $cust_id =  $_SESSION['selected_cust_id'];//$_POST['cust_id'];
 $payment_mode_id = $_POST['payment_mode_id'];
 $invoice_mode = $_POST['invoice_mode'];
@@ -40,8 +41,8 @@ if ($tendered >= $amount_due) {
     $invoiceNo = $rowss['id'];
 
     $id = $_SESSION['id'];
-    mysqli_query($con, "INSERT INTO sales(cust_id,user_id,discount,amount_due,total,date_added,modeofpayment,cash_tendered,cash_change,branch_id,order_no,customer_id,invoice_no,rate) 
-	VALUES('$cid','$id','$discount','$amount_due','$total','$date','$payment_mode_id','$tendered','$change','$branch','$orderNumber','$cust_id','$invoiceNo','$rate')")or die(mysqli_error($con));
+    mysqli_query($con, "INSERT INTO sales(user_id,discount,amount_due,total,date_added,modeofpayment,branch_id,order_no,customer_id,rate) 
+	VALUES('$id','$discount','$amount_due','$total','$date','$payment_mode_id','$branch','$orderNumber','$cust_id','$rate')")or die(mysqli_error($con));
 
     $sales_id = mysqli_insert_id($con);
     $_SESSION['sid'] = $sales_id;

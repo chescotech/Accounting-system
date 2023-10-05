@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(0);
+error_reporting(E_ALL);
 session_start();
 if (empty($_SESSION['id'])) :
     header('Location:../index.php');
@@ -270,12 +270,12 @@ endif;
                                                         echo '<script>alert("Please select at least one Account");</script>';
 
                                                     } else if ($branch_id != "all_branches") {
-                                                        $query = mysqli_query($con, "SELECT date_added,invoice_no,amount_due,customer.cust_first,customer.cust_last FROM `sales`"
+                                                        $query = mysqli_query($con, "SELECT date_added,order_no,amount_due,customer.cust_first,customer.cust_last FROM `sales`"
                                                             . " INNER JOIN customer on customer.cust_id=sales.customer_id  "
                                                             . "AND date_added BETWEEN '$startDate' AND '$stop_date'  AND sales.customer_id IN ('" . implode("','", $branch_id) . "') ") or die(mysqli_error($con));
                                                     } else {
 
-                                                        $query = mysqli_query($con, "SELECT date_added,invoice_no,amount_due,customer.cust_first,customer.cust_last FROM `sales`"
+                                                        $query = mysqli_query($con, "SELECT date_added,order_no,amount_due,customer.cust_first,customer.cust_last FROM `sales`"
                                                             . " INNER JOIN customer on customer.cust_id=sales.customer_id  "
                                                             . "AND date_added BETWEEN '$startDate' AND '$stop_date'") or die(mysqli_error($con));
                                                     }
@@ -283,7 +283,7 @@ endif;
                                                     echo ' <center><h3 class="box-title" style=" color: black"><b><u>Transaction Report from ' . $start . ' to ' . $end . '</u></b></h3></center>';
                                                 } else {
                                                     //  $query = mysqli_query($con, "SELECT stock_branch_id,SUM(qty) AS qty,prod_name,prod_desc,name, sales_details.price AS prod_sell_price,sales.date_added  FROM sales_details INNER JOIN sales ON sales.sales_id=sales_details.sales_id INNER JOIN user ON user.user_id = sales.user_id INNER JOIN product ON product.prod_id = sales_details.prod_id AND DATE(sales.date_added) = DATE(NOW()) GROUP BY prod_name,stock_branch_id,sales_details.price")or die(mysqli_error($con));
-                                                    $query = mysqli_query($con, "SELECT date_added,invoice_no,amount_due,customer.cust_first,customer.cust_last FROM `sales`"
+                                                    $query = mysqli_query($con, "SELECT date_added,order_no,amount_due,customer.cust_first,customer.cust_last FROM `sales`"
                                                         . " INNER JOIN customer on customer.cust_id=sales.customer_id  "
                                                         . "AND DATE(date_added)= DATE(NOW())") or die(mysqli_error($con));
                                                     echo ' <center><h3 class="box-title" style=" color: black"><b><u>Todays Transactions Report</u></b></h3></center><br>';
@@ -294,17 +294,17 @@ endif;
                                                 ?>
                                                     <tr>
                                                         <td><?php echo date("M d, Y", strtotime($row['date_added'])); ?></td>
-                                                        <td><?php echo $row['invoice_no']; ?></td>
+                                                        <td><?php echo $row['order_no']; ?></td>
 
                                                         <td><?php echo $row['cust_first'] . ' ' . $row['cust_last']; ?></td>
-                                                        <td><?php echo ' Invoice : ' . $row['invoice_no']; ?></td>
+                                                        <td><?php echo ' Invoice : ' . $row['order_no']; ?></td>
                                                         <td><?php
                                                             $totalDebit += $row['amount_due'];
                                                             echo $row['amount_due'];
                                                             ?></td>
 
                                                         <td><?php
-                                                            $invoice_no = $row['invoice_no'];
+                                                            $invoice_no = $row['order_no'];
                                                             $damagesQuery = mysqli_query($con, "SELECT SUM(amount) AS credit FROM `credit_payments` "
                                                                 . "WHERE invoice_no='$invoice_no' "
                                                                 . "GROUP BY invoice_no ") or die(mysqli_error($con));

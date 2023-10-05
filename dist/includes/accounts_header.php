@@ -39,7 +39,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
         background-color: #3c8d !important;
         border-radius: 5%;
         color: black !important;
-        font-size: smaller;
+        font-size: small;
     }
 
     .main-header .navbar {
@@ -197,60 +197,6 @@ while ($row1 = mysqli_fetch_array($query3)) {
                             </li>
                         </ul>
                     </li>
-
-                    <li class="dropdown notifications-user">
-                        <a href="expenses">
-                            <i class="glyphicon glyphicon-user text-green"></i> Expenses
-                        </a>
-                        <ul class="dropdown-menu">
-                        </ul>
-                    </li>
-
-                    <li class="dropdown notifications-user">
-                        <a href="../user/credit_customer">
-                            <i class="glyphicon glyphicon-user text-green"></i> credit Note
-                        </a>
-                        <ul class="dropdown-menu">
-                        </ul>
-                    </li>
-
-                    <li class="dropdown notifications-menu">
-                        <a id="stock" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="glyphicon glyphicon-wrench"></i> Invoicing 
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <ul class="menu">
-
-                                    <li>
-                                        <a href="../user/draft-sale">
-                                            <i class="glyphicon glyphicon-plus text-info"></i> Invoices
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="../user/quotation.php">
-                                            <i class="glyphicon glyphicon-plus text-info"></i> Quotation
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="../user/sales_receipt.php">
-                                            <i class="glyphicon glyphicon-plus text-info"></i> Sales Reciept
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="../user/recieve_payment.php">
-                                            <i class="glyphicon glyphicon-plus text-info"></i> Recieve Payments
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-
 
                     <li class="dropdown notifications-menu">
                         <a id="stock" href="#" class="dropdown-toggle" data-toggle="dropdown">

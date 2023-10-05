@@ -1,5 +1,6 @@
 <?php
-error_reporting(0);
+
+error_reporting(E_ALL);
 session_start();
 if (empty($_SESSION['id'])) :
     header('Location:../index.php');
@@ -14,7 +15,7 @@ endif;
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Customer Invoices Report | <?php include('../dist/includes/title.php'); ?></title>
+    <title>Sales Report | <?php include('../dist/includes/title.php'); ?></title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -37,9 +38,6 @@ endif;
     <link rel="stylesheet" href="../plugins/select2/select2.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-
-
 
     <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
@@ -109,18 +107,19 @@ endif;
 
         }
 
-        .checkbox-group {
-            overflow-y: scroll;
-            max-height: 150px;
-            width: 30rem;
-        }
-
         .col-lg-2 span {
             display: list-item;
         }
 
+
         label {
             display: contents !important;
+        }
+
+        .checkbox-group {
+            overflow-y: scroll;
+            max-height: 150px;
+            width: 30rem;
         }
 
         .checkbox-group .checkbox-list span {
@@ -133,10 +132,46 @@ endif;
 
 <body class="hold-transition skin-<?php echo $_SESSION['skin']; ?> layout-top-nav">
     <div class="wrapper">
+        <!-- ... (rest of your HTML content) ... -->
         <?php
         include('../dist/includes/header_admin.php');
         include('../Objects/Objects.php');
         $Objects = new InvObjects();
+        if (isset($_POST['display'])) {
+            $date = $_POST['date'];
+            $date = explode('-', $date);
+            $start = date("Y-m-d", strtotime($date[0]));
+            $end = date("Y-m-d", strtotime($date[1]));
+            $branch_id = $_POST['branch_id'];
+            if (!is_array($branch_id)) {
+                $branch_id = [$branch_id];
+            }
+
+            // Sanitize the array of branch IDs
+            $branch_ids = array_map(function ($branch_id) use ($con) {
+                return mysqli_real_escape_string($con, $branch_id);
+            }, $branch_id);
+
+            // Convert the sanitized IDs to a comma-separated string
+            $branch_ids_str = "'" . implode("','", $branch_ids) . "'";
+
+            $query = mysqli_query($con, "
+    SELECT
+        'sales' AS source_table,
+        date AS transaction_date,
+        id AS reference,
+        'PAY' AS transaction_code,
+        description AS description,
+        NULL AS debit,
+        name,
+        balance AS credit
+    FROM payment_account
+    
+    WHERE date BETWEEN '$start' AND DATE_ADD('$end', INTERVAL 1 DAY)
+        AND id IN ($branch_ids_str)
+    ORDER BY transaction_date  -- Order by transaction_date
+") or die(mysqli_error($con));
+        }
         ?>
         <div class="content-wrapper">
             <div class="container">
@@ -163,10 +198,11 @@ endif;
                                         <div class="form-group">
                                             <label for="branch_id">Customers</label>
                                             <div class="checkbox-group checkbox-list" style="display: inline-block;">
-                                                <input type="text" id="search" placeholder="Search Customers"><br>
-                                                <span><input type="checkbox" id="all_branches" name="branch_id" value="all_branches"> <label for="all_branches">All Customers</label></span> 
+                                                <input type="text" id="search" placeholder="Search Accounts"><br>
+                                                <span><input type="checkbox" id="all_branches" name="branch_id" value="all_branches"> <label for="all_branches">All Accounts</label></span>
                                                 <?php
-                                                $queryc = mysqli_query($con, "SELECT cust_id, cust_first, cust_last FROM customer GROUP BY cust_first, cust_last ORDER BY cust_first") or die(mysqli_error($con));
+                                                $queryc = mysqli_query($con, "SELECT MIN(id) AS id, name FROM payment_account GROUP BY name ORDER BY name") or die(mysqli_error($con));
+
 
                                                 if (!$queryc) {
                                                     die("Query failed: " . mysqli_error($con));
@@ -175,8 +211,8 @@ endif;
                                                 while ($rowc = mysqli_fetch_array($queryc)) {
                                                 ?>
                                                     <span>
-                                                        <input type="checkbox" id="<?php echo $rowc['cust_id']; ?>" name="branch_id[]" value="<?php echo $rowc['cust_id']; ?>">
-                                                        <label for="<?php echo $rowc['cust_id']; ?>"><?php echo $rowc['cust_first'] . ' ' . $rowc['cust_last']; ?></label>
+                                                        <input type="checkbox" id="<?php echo $rowc['id']; ?>" name="branch_id[]" value="<?php echo $rowc['id']; ?>">
+                                                        <label for="<?php echo $rowc['id']; ?>"><?php echo $rowc['name']; ?></label>
                                                     </span>
                                                 <?php
                                                 }
@@ -184,7 +220,6 @@ endif;
                                             </div>
                                         </div>
                                     </div>
-
 
                                     <button type="submit" class="btn btn-primary" name="display"> Generate Report </button>
                                 </form>
@@ -196,7 +231,7 @@ endif;
                             <div class="col-xs-12">
                                 <div class="box box-primary">
                                     <div class="box-header">
-                                        <h3 class="box-title" style=" color: black"><b>Customer Invoices Report</b></h3>
+                                        <h3 class="box-title" style=" color: black"><b>General ledger Report</b></h3>
                                     </div>
                                     <?php
                                     if (isset($_POST['display'])) {
@@ -209,7 +244,6 @@ endif;
                                         <button id="btnExport" onclick="javascript:xport.toCSV('transaction_statement');"> Export to CSV</button>
 
                                         <form target="_blank" action="transaction_statement_pdf.php" method="post">
-
                                             <input hidden="hidden" name="date" value="<?php
                                                                                         if (isset($_POST['display'])) {
                                                                                             echo $_POST['date'];
@@ -228,95 +262,118 @@ endif;
                                                                                             }
                                                                                             ?>">
 
+                                            <?php
+                                            if (isset($_POST['display'])) {
+                                                echo ' <button type="submit"  name="save" id="save" type="button" class="btn btn-default"><span class="glyphicon glyphicon-print"></span>Export to PDF
+                                            </button>';
+                                            }
+                                            ?>
                                         </form>
                                         <table id="transaction_statement" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Date</th>
-                                                    <th>Invoice #</th>
-                                                    <th>Customer</th>
-                                                    <th>Invoice Amount</th>
-                                                    <th>View Invoice</th>
-                                                    <th>Delete Invoice</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                $totalSold = 0;
-                                                $totalAmountCollected = 0;
-                                                $totalDebit = 0;
-                                                $totalCredit = 0;
-                                                $balance = 0;
-                                                $total_balance = 0;
-                                                $total_credit = 0;
-                                                $total_debit = 0;
+    <thead>
+        <tr>
+            <th>S/N</th>
+            <th>Date</th>
+            <th>Name</th>
+            <th>REFERENCE</th>
+            <th>TRANSACTION TYPE</th>
+            <th>MEMO/DESCRIPTION</th>
+            <th>SPLIT</th>
+            <th>AMOUNT</th>
+            <th>BALANCE</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $totalSold = 0;
 
-                                                if (isset($_POST['display'])) {
+        while ($row = mysqli_fetch_array($query)) {
+            $totalSold = $row['credit'];
 
-                                                    $date = $_POST['date'];
-                                                    $date = explode('-', $date);
-                                                    $branch = $_SESSION['branch'];
-                                                    $start = date("Y-m-d", strtotime($date[0]));
-                                                    $startDate = $start . " 00:00:00";
-                                                    $end = date("Y-m-d", strtotime($date[1]));
-                                                    $endDate = $end . " 00:00:00";
-                                                    $stop_date = date('Y-m-d H:i:s', strtotime($endDate . ' +1 day'));
-                                                    $branch_id = $_POST['branch_id'];
+            // Initialize total sales and expenses variables
+            $totalSales = 0;
+            $totalExpenses = 0;
 
-                                                    if (empty($branch_id)) {
-                                                        echo '<script>alert("Please select at least one customer");</script>';
-                                                    } else if ($branch_id != "all_branches") {
-                                                        $query = mysqli_query($con, "SELECT date_added,order_no,amount_due, customer.cust_first,customer.cust_last,sales.sales_id FROM `sales` inner join customer on customer.cust_id=sales.customer_id
-                                                            WHERE date_added BETWEEN '$startDate' AND '$stop_date' AND sales.customer_id IN ('" . implode("','", $branch_id) . "') ") or die(mysqli_error($con));
-                                                    } else {
+            // Fetch and calculate the total sales for this payment account
+            $salesQuery = mysqli_query($con, "SELECT SUM(amount_due) AS total_sales FROM sales WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
+            $salesRow = mysqli_fetch_array($salesQuery);
+            $totalSales = $salesRow['total_sales'];
 
-                                                        $query = mysqli_query($con, "SELECT date_added,order_no,amount_due, customer.cust_first,customer.cust_last,sales.sales_id FROM `sales` inner join customer on customer.cust_id=sales.customer_id
-                                                            WHERE date_added BETWEEN '$startDate' AND '$stop_date'") or die(mysqli_error($con));
-                                                    }
+            // Fetch and calculate the total expenses for this payment account
+            $expensesQuery = mysqli_query($con, "SELECT SUM(amount) AS total_expenses FROM expenses_tb WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
+            $expensesRow = mysqli_fetch_array($expensesQuery);
+            $totalExpenses = $expensesRow['total_expenses'];
+        ?>
+            <tr>
+                <td><?php echo $row['reference']; ?></td>
+                <td><?php echo date("M d, Y", strtotime($row['transaction_date'])); ?></td>
+                <td><?php echo $row['name']; ?> <br>Current Balance</td>
+                <td><?php echo $row['reference']; ?></td>
+                <td><?php echo $row['transaction_code']; ?></td>
+                <td><?php echo $row['description']; ?></td>
+                <td><?php echo $row['debit']; ?></td>
+                <td></td>
+                <td><br> <?php echo 'K ' . number_format($totalSold, 2); ?></td>
+            </tr>
+            <tr>
+                <td colspan="9">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>View Details</th>
+                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color:green; font-weight:bold;">Revenue</td>
+                            </tr>
+                            <?php
+                            $salesQuery = mysqli_query($con, "SELECT * FROM sales WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
+                            while ($salesRow = mysqli_fetch_array($salesQuery)) {
+                            ?>
+                                <tr>          
+                               <td ><?php echo 'Cash Sales' ?></td>                                                                                                                                                        
+                                </tr>
+                            
+                                <tr>                                                                                                                                                      
+                                    <td style="padding-left: 100rem !important;"><?php echo $salesRow['amount_due']; ?></td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                            
+                            <tr>
+                                <td style="color:crimson; font-weight:bold;">Expenses</td>
+                            </tr>
+                            <?php
+                            $expensesQuery = mysqli_query($con, "SELECT * FROM expenses_tb WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
+                            while ($expensesRow = mysqli_fetch_array($expensesQuery)) {
+                            ?>
+                            <tr> 
+                                <td ><?php echo $expensesRow['category']; ?></td>                                                                                                       
+                                </tr>
+                                <tr>                                                                                        
+                                    <td style="padding-left: 100rem !important;"><?php echo $expensesRow['amount']; ?></td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        <?php
+        }
+        ?>
+    </tbody>
+</table>
 
-                                                    echo ' <center><h3 class="box-title" style=" color: black"><b><u>Customer Invoices Report from ' . $start . ' to ' . $end . '</u></b></h3></center>';
-                                                } else {
-                                                    //  $query = mysqli_query($con, "SELECT stock_branch_id,SUM(qty) AS qty,prod_name,prod_desc,name, sales_details.price AS prod_sell_price,sales.date_added  FROM sales_details INNER JOIN sales ON sales.sales_id=sales_details.sales_id INNER JOIN user ON user.user_id = sales.user_id INNER JOIN product ON product.prod_id = sales_details.prod_id AND DATE(sales.date_added) = DATE(NOW()) GROUP BY prod_name,stock_branch_id,sales_details.price")or die(mysqli_error($con));
-                                                    $query = mysqli_query($con, "SELECT date_added,order_no,amount_due, customer.cust_first,customer.cust_last,sales.sales_id FROM `sales` inner join customer on customer.cust_id=sales.customer_id
-                                                            WHERE DATE(date_added)=DATE(NOW())") or die(mysqli_error($con));
-                                                    echo ' <center><h3 class="box-title" style=" color: black"><b><u>Todays Customer Invoices Report</u></b></h3></center><br>';
-                                                }
-                                                while ($row = mysqli_fetch_array($query)) {
-                                                    $totalSold += $row['amount_due'];
-                                                ?>
-                                                    <tr>
-                                                        <td><?php echo date("M d, Y", strtotime($row['date_added'])); ?></td>
-                                                        <td><?php echo $row['order_no']; ?></td>
-
-                                                        <td><?php echo $row['cust_first'] . ' ' . $row['cust_last']; ?></td>
-                                                        <td><?php echo $row['amount_due']; ?></td>
-                                                        <td>
-                                                            <a href="receipt.php?invoice_no=<?php echo $row['order_no']; ?>&sales_id=<?php echo $row['sales_id']; ?>" style="color: #003eff "><b>View Invoice</b></i></a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="delete-invoice.php?invoice_no=<?php echo $row['order_no']; ?>&sales_id=<?php echo $row['sales_id']; ?>" style="color: #003eff "><b>Delete Invoice</b></i></a>
-                                                        </td>
-                                                    </tr>
-                                                <?php
-                                                }
-                                                $vat = 0.16 * $totalAmountCollected;
-                                                ?>
-                                                <tr>
-
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td><?php echo 'K ' . number_format($totalSold, 2); ?></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div><!-- /.box-body -->
+                                    </div>
                                 </div>
                             </div>
-                    </section><!-- /.content -->
-                </section><!-- /.content -->
+                    </section>
+                </section>
             </div>
         </div>
         <?php include('../dist/includes/footer.php'); ?>
@@ -347,7 +404,7 @@ endif;
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
     <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>  
     <script>
         $(function() {
             $("#example1").DataTable();
@@ -432,8 +489,6 @@ endif;
             });
         });
     </script>
-
-
     <script>
         $(document).ready(function() {
             $('#all_branches').on('change', function() {
@@ -462,7 +517,5 @@ endif;
             });
         });
     </script>
-
 </body>
-
 </html>

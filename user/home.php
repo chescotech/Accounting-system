@@ -6,6 +6,8 @@ endif;
 if (empty($_SESSION['branch'])) :
     header('Location:../index.php');
 endif;
+
+error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <html>
@@ -106,13 +108,15 @@ endif;
             transform: scale(1.1);
 
         }
-        .box-body{
+
+        .box-body {
             background: rgba(0, 0, 0, 0.1);
         }
-        .box-header{
+
+        .box-header {
             background: #3c8d;
             /* background: rgba(0, 0, 0, 0.8); */
-            
+
             text-align: center;
         }
     </style>
@@ -167,21 +171,25 @@ endif;
                                             ?>
 
 
-
                                             <?php
                                             ?>
                                             <?php
                                             $query3 = mysqli_query($con, "SELECT count(temp_trans_id) AS prodcount FROM `draft_temp_trans` GROUP BY order_no") or die(mysqli_error($con));
                                             $row3 = mysqli_fetch_array($query3);
                                             if (mysqli_num_rows($query3) > 0) {
-                                                echo '  
-                                            <a href="../user/draft-sale.php">     
-                                            <i class="glyphicon glyphicon-refresh icon">                                                                                         
-                                            </i>
-                                            <p> ' . $row3['prodcount'] . ' PENDING DRAFT PAYMENTS </p>
-                                            </a>';
+                                                echo '<a href="../user/draft-sale.php">';
+                                                echo '<i class="glyphicon glyphicon-refresh icon"></i>';
+                                                echo '<p>' . $row3['prodcount'] . ' PENDING DRAFT PAYMENTS</p>';
+                                                echo '</a>';
+                                            } else {
+                                                
+                                                echo '<a href="../user/draft-sale.php">';
+                                                echo '<i class="glyphicon glyphicon-refresh icon"></i>';
+                                                echo '<p>0 PENDING DRAFT PAYMENTS</p>';
+                                                echo '</a>';
                                             }
                                             ?>
+
                                         </div>
                                         <div class="row menu ">
                                             <?php
@@ -206,8 +214,8 @@ endif;
 
                     </div>
                 </section>
-              
-            </div>              
+
+            </div>
         </div>
 
         <?php include('../dist/includes/footer.php'); ?>

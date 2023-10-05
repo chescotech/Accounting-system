@@ -148,7 +148,7 @@ session_start();
                         <div class="table">
 
                             <?php
-                          $query = "SELECT 'Expense' AS type, date, amount AS amount, e.pay_acc_id, supplier_id, NULL AS customer_id,  balance FROM expenses_tb AS e WHERE e.pay_acc_id = '$id'
+                          $query = "SELECT 'Expense' AS type, date, amount AS amount, e.pay_acc_id, supplier_id, NULL AS customer_id, balance FROM expenses_tb AS e WHERE e.pay_acc_id = '$id'
                           UNION
                           SELECT 'Sale' AS type, date_added AS date, amount_due AS amount, s.pay_acc_id, NULL AS supplier_id, customer_id, balance FROM sales AS s 
                           WHERE s.pay_acc_id = '$id' ORDER BY date DESC";
