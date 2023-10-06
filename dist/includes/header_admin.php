@@ -100,7 +100,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
 
 
 <header class="main-header">
-    <nav class="navbar navbar-static-top" >
+    <nav class="navbar navbar-static-top">
         <div class="container-fluid">
             <div class="navbar-header" style="padding-left:20px">
                 <a href="home.php" class="navbar-brand"><b><i class="glyphicon glyphicon-home"></i> <?php echo $branch_name; ?> </b></a>
@@ -206,17 +206,11 @@ while ($row1 = mysqli_fetch_array($query3)) {
                         </ul>
                     </li>
 
-                    <li class="dropdown notifications-user">
-                        <a href="../user/credit_customer">
-                            <i class="glyphicon glyphicon-user text-green"></i> credit Note
-                        </a>
-                        <ul class="dropdown-menu">
-                        </ul>
-                    </li>
+
 
                     <li class="dropdown notifications-menu">
                         <a id="stock" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="glyphicon glyphicon-wrench"></i> Invoicing 
+                            <i class="glyphicon glyphicon-wrench"></i> Customer
                         </a>
                         <ul class="dropdown-menu">
                             <li>
@@ -237,6 +231,12 @@ while ($row1 = mysqli_fetch_array($query3)) {
                                     <li>
                                         <a href="../user/sales_receipt.php">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Sales Reciept
+                                        </a>
+                                    </li>
+
+                                    <li >
+                                        <a href="../user/credit_customer">
+                                            <i class="glyphicon glyphicon-user text-green"></i> credit Note
                                         </a>
                                     </li>
 
@@ -311,6 +311,40 @@ while ($row1 = mysqli_fetch_array($query3)) {
                         </ul>
                     </li>
 
+
+                    <li class="dropdown notifications-user">
+                        <a href="cash_flow.php">
+                        <i class="glyphicon glyphicon-stats text-green"></i> Cash Flow
+                        </a>
+                        <ul class="dropdown-menu">
+
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown notifications-menu">
+                        <a id="reports" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="glyphicon glyphicon-stats"></i> Accounts
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <ul class="menu">
+                                    <li>
+                                        <a href="accountschart.php">
+                                            <i class="glyphicon glyphicon-stats text-green"></i> Chart of Accounts
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="general_ledger.php">
+                                            <i class="glyphicon glyphicon-stats text-green"></i> General Ledger
+                                        </a>
+                                    </li>                                   
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+
                     <li class="dropdown notifications-menu">
                         <a id="reports" href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="glyphicon glyphicon-stats"></i> Reports
@@ -321,22 +355,6 @@ while ($row1 = mysqli_fetch_array($query3)) {
                                     <li>
                                         <a href="userauditreport">
                                             <i class="glyphicon glyphicon-stats text-green"></i> User Audits
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="accountschart.php">
-                                            <i class="glyphicon glyphicon-stats text-green"></i> Chart of Accounts
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="general_ledger.php">
-                                            <i class="glyphicon glyphicon-stats text-green"></i> General Ledger
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="cash_flow.php">
-                                            <i class="glyphicon glyphicon-stats text-green"></i> Cash Flow
                                         </a>
                                     </li>
                                     <li>
@@ -462,22 +480,22 @@ while ($row1 = mysqli_fetch_array($query3)) {
                             </li>
                         </ul>
                     </li>
-
+<!-- 
                     <li class="">
                         <a href="../user/home" class="dropdown-toggle">
                             <i class="glyphicon glyphicon-cog text-orange"></i>
                             Switch User Acc
                         </a>
-                    </li>
-                    <li class="">
+                    </li> -->
+                    <!-- <li class="">
                         <a href="profile" class="dropdown-toggle">
                             <i class="glyphicon glyphicon-cog text-orange"></i>
                             <?php echo $_SESSION['name']; ?>
                         </a>
-                    </li>
+                    </li> -->
 
                     <li class="">
-                       
+
                         <a href="logout" class="dropdown-toggle">
                             <i class="glyphicon glyphicon-off text-red"></i> Logout
                         </a>
@@ -487,4 +505,3 @@ while ($row1 = mysqli_fetch_array($query3)) {
         </div>
     </nav>
 </header>
-

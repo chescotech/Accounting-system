@@ -416,7 +416,7 @@ endif;
     <script src="../dist/js/demo.js"></script>
     <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
-    <!-- <script>
+    <script>
         $(function() {
             $("#example1").DataTable();
             $('#example2').DataTable({
@@ -499,7 +499,7 @@ endif;
                 showInputs: false
             });
         });
-    </script> -->
+    </script>
     <script>
         $(document).ready(function() {
             $('#all_branches').on('change', function() {

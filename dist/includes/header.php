@@ -463,18 +463,18 @@ while ($row1 = mysqli_fetch_array($query3)) {
                         </ul>
                     </li>
 
-                    <li class="">
+                    <!-- <li class="">
                         <a href="../AdminPortal/home" class="dropdown-toggle">
                             <i class="glyphicon glyphicon-cog text-orange"></i>
                             Switch User Acc
                         </a>
-                    </li>
-                    <li class="">
+                    </li> -->
+                    <!-- <li class="">
                         <a href="profile" class="dropdown-toggle">
                             <i class="glyphicon glyphicon-cog text-orange"></i>
                             <?php echo $_SESSION['name']; ?>
                         </a>
-                    </li>
+                    </li> -->
 
                     <li class="">
                        
