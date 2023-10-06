@@ -320,11 +320,10 @@ endif;
                                                             <table>
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>View Details</th>
-
+                                                                        <button class="toggle-details-button btn btn-success">View Details</button>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody>
+                                                                <tbody class="details-container ">
                                                                     <tr>
                                                                         <td style="color:green; font-weight:bold;">Revenue</td>
                                                                     </tr>
@@ -335,14 +334,12 @@ endif;
                                                                         <tr>
                                                                             <td><?php echo 'Cash Sales' ?></td>
                                                                         </tr>
-
                                                                         <tr>
-                                                                            <td style="padding-left: 90rem !important;"><?php echo 'K ' . number_format( $salesRow['amount_due'], 2); ?></td>
+                                                                            <td style="padding-left: 90rem !important;"><?php echo 'K ' . number_format($salesRow['amount_due'], 2); ?></td>
                                                                         </tr>
                                                                     <?php
                                                                     }
                                                                     ?>
-
                                                                     <tr>
                                                                         <td style="color:crimson; font-weight:bold;">Expenses</td>
                                                                     </tr>
@@ -361,6 +358,7 @@ endif;
                                                                     ?>
                                                                 </tbody>
                                                             </table>
+
                                                         </td>
                                                     </tr>
                                                 <?php
@@ -514,6 +512,23 @@ endif;
 
                     $(this).toggle(shouldShow);
                 });
+            });
+        });
+    </script>
+
+
+    <script>
+        const toggleButtons = document.querySelectorAll('.toggle-details-button');
+
+        toggleButtons.forEach(toggleButton => {
+            toggleButton.addEventListener('click', () => {
+                const detailsContainer = toggleButton.nextElementSibling;
+
+                if (detailsContainer.classList.contains('hidden')) {
+                    detailsContainer.classList.remove('hidden'); 
+                } else {
+                    detailsContainer.classList.add('hidden'); 
+                }
             });
         });
     </script>
