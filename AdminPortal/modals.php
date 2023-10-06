@@ -67,12 +67,12 @@
                     <div class="form-group">
                         <label for="date">Payee</label>
                         <select class="form-control" type="select" name="supplier">
-                            <option><?php echo $supName; ?></option>
+                            <!-- <option><?php echo $supName; ?></option> -->
                             <?php
                             $query8 = mysqli_query($con, "SELECT * FROM supplier") or die(mysqli_error($con));
                             while ($row8 = mysqli_fetch_assoc($query8)) {
                                 $supName = $row8['supplier_name'];
-                                echo "<option>$supName</option>";
+                                echo "<option value = '$supName'>$supName</option>";
                             }
                             ?>
                         </select>
@@ -144,7 +144,7 @@
     </div><!--end of modal-dialog-->
 </div>
 
-<div class="modal fade " id="addPaymentAccountModal" tabindex="-1" aria-labelledby="addPaymentAccountModalLabel" aria-hidden="true">        
+<div class="modal fade" id="addPaymentAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">       
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
