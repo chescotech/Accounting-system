@@ -123,49 +123,49 @@ while ($row1 = mysqli_fetch_array($query3)) {
                             <li>
                                 <ul class="menu">
                                     <li>
-                                        <a href="company-setup">
+                                        <a href="../AdminPortal/company-setup">
                                             <i class="glyphicon glyphicon-user text-green"> Company Setup</i>
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="branch-setup">
+                                        <a href="../AdminPortal/branch-setup">
                                             <i class="glyphicon glyphicon-user text-green"> Branch Setup</i>
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="manage-warehouses">
+                                        <a href="../AdminPortal/manage-warehouses">
                                             <i class="glyphicon glyphicon-user text-green"> Warehouses Setup</i>
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="cashout-limits">
+                                        <a href="../AdminPortal/cashout-limits">
                                             <i class="glyphicon glyphicon-scissors text-green"> Cashout Limits</i>
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="modes-of-payment">
+                                        <a href="../AdminPortal/modes-of-payment">
                                             <i class="glyphicon glyphicon-user text-green"> Payment Modes</i>
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="category">
+                                        <a href="../AdminPortal/category">
                                             <i class="glyphicon glyphicon-user text-green"></i> Item Categories
                                         </a>
                                     </li>
 
                                     <li><!-- start notification -->
-                                        <a href="supplier.php">
+                                        <a href="../AdminPortal/supplier.php">
                                             <i class="glyphicon glyphicon-send text-green"></i> Suppliers
                                         </a>
                                     </li>
 
                                     <li><!-- start notification -->
-                                        <a href="supplier_payments">
+                                        <a href="../AdminPortal/supplier_payments">
                                             <i class="glyphicon glyphicon-send text-green"></i> Supplier Payments
                                         </a>
                                     </li>
@@ -177,19 +177,19 @@ while ($row1 = mysqli_fetch_array($query3)) {
                                     </li>
 
                                     <li><!-- start notification -->
-                                        <a href="expense_types">
+                                        <a href="../AdminPortal/expense_types">
                                             <i class="glyphicon glyphicon-send text-green"></i> Expense Types
                                         </a>
                                     </li>
 
                                     <li><!-- start notification -->
-                                        <a href="customer">
+                                        <a href="../AdminPortal/customer">
                                             <i class="glyphicon glyphicon-send text-green"></i> Customers
                                         </a>
                                     </li>
 
                                     <li><!-- start notification -->
-                                        <a href="inventory-list">
+                                        <a href="../AdminPortal/inventory-list">
                                             <i class="glyphicon glyphicon-send text-green"></i> Inventory Records
                                         </a>
                                     </li>
@@ -199,7 +199,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
                     </li>
 
                     <li class="dropdown notifications-user">
-                        <a href="expenses">
+                        <a href="../AdminPortal/expenses">
                             <i class="glyphicon glyphicon-user text-green"></i> Expenses
                         </a>
                         <ul class="dropdown-menu">
@@ -207,7 +207,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
                     </li>
 
                     <li class="dropdown notifications-user">
-                        <a href="../user/credit_customer">
+                        <a href="credit_customer">
                             <i class="glyphicon glyphicon-user text-green"></i> credit Note
                         </a>
                         <ul class="dropdown-menu">
@@ -223,25 +223,25 @@ while ($row1 = mysqli_fetch_array($query3)) {
                                 <ul class="menu">
 
                                     <li>
-                                        <a href="../user/draft-sale">
+                                        <a href="draft-sale">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Invoices
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="../user/quotation.php">
+                                        <a href="quotation.php">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Quotation
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="../user/sales_receipt.php">
+                                        <a href="sales_receipt.php">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Sales Reciept
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="../user/recieve_payment.php">
+                                        <a href="recieve_payment.php">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Recieve Payments
                                         </a>
                                     </li>
@@ -261,37 +261,37 @@ while ($row1 = mysqli_fetch_array($query3)) {
                                 <ul class="menu">
 
                                     <li>
-                                        <a href="product">
+                                        <a href="../AdminPortal/product">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Manage Products
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="transfer_select.php">
+                                        <a href="../AdminPortal/transfer_select.php">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Purchase Stock
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="bulk-entry">
+                                        <a href="../AdminPortal/bulk-entry">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Bulk Upload
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="ware-house-stock">
+                                        <a href="../AdminPortal/ware-house-stock">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Manage Warehouse Stock
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="input-reversal">
+                                        <a href="../AdminPortal/input-reversal">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Manage Reversal
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="input-invoiceno">
+                                        <a href="../AdminPortal/input-invoiceno">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Credit Note
                                         </a>
                                     </li>
@@ -302,7 +302,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
                     </li>
 
                     <li class="dropdown notifications-user">
-                        <a href="users">
+                        <a href="../AdminPortal/users">
                             <i class="glyphicon glyphicon-user text-green"></i> Users
                         </a>
                         <ul class="dropdown-menu">
@@ -319,123 +319,123 @@ while ($row1 = mysqli_fetch_array($query3)) {
                             <li>
                                 <ul class="menu">
                                     <li>
-                                        <a href="userauditreport">
+                                        <a href="../AdminPortal/userauditreport">
                                             <i class="glyphicon glyphicon-stats text-green"></i> User Audits
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="accountschart.php">
+                                        <a href="../AdminPortal/accountschart.php">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Chart of Accounts
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="general_ledger.php">
+                                        <a href="../AdminPortal/general_ledger.php">
                                             <i class="glyphicon glyphicon-stats text-green"></i> General Ledger
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="cash_flow.php">
+                                        <a href="../AdminPortal/cash_flow.php">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Cash Flow
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="product-shortages">
+                                        <a href="../AdminPortal/product-shortages">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Product Shortages
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="supplier-payments-report">
+                                        <a href="../AdminPortal/supplier-payments-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Supplier Payments Report
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="sales-report">
+                                        <a href="../AdminPortal/sales-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Sales Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="customer-invoices">
+                                        <a href="../AdminPortal/customer-invoices">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Customer Invoices Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="transaction-history">
+                                        <a href="../AdminPortal/transaction-history">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Transaction History Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="product-expiry-report">
+                                        <a href="../AdminPortal/product-expiry-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Product Expiry Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="part-payments-report">
+                                        <a href="../AdminPortal/part-payments-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Part Payments Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="advance-payments">
+                                        <a href="../AdminPortal/advance-payments">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Advance Payments Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="expenses-report">
+                                        <a href="../AdminPortal/expenses-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Expenses Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="profit-loss-report">
+                                        <a href="../AdminPortal/profit-loss-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Profit Loss Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="stock-transfer-report">
+                                        <a href="../AdminPortal/stock-transfer-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Stock Transfer Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="open-close-cash-out-report">
+                                        <a href="../AdminPortal/open-close-cash-out-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Open Close Cash Out Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="user-cash-out-report">
+                                        <a href="../AdminPortal/user-cash-out-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> User Cash Out Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="ware-house-report">
+                                        <a href="../AdminPortal/ware-house-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Warehouse Count Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="stock-count">
+                                        <a href="../AdminPortal/stock-count">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Stock Count Report
                                         </a>
                                     </li>
 
 
                                     <li>
-                                        <a href="discounts-report">
+                                        <a href="../AdminPortal/discounts-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Discounts Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="stock-damages-report">
+                                        <a href="../AdminPortal/stock-damages-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Damages Report
                                         </a>
                                     </li>
@@ -443,18 +443,18 @@ while ($row1 = mysqli_fetch_array($query3)) {
 
 
                                     <li>
-                                        <a href="stock-audits-report">
+                                        <a href="../AdminPortal/stock-audits-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Stock Audit Report
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="draft-sales-report">
+                                        <a href="../AdminPortal/draft-sales-report">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Credit Sales
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="open-close-balances">
+                                        <a href="../AdminPortal/open-close-balances">
                                             <i class="glyphicon glyphicon-stats text-green"></i> Balances Report
                                         </a>
                                     </li>
@@ -464,7 +464,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
                     </li>
 
                     <li class="">
-                        <a href="../user/home" class="dropdown-toggle">
+                        <a href="../AdminPortal/home" class="dropdown-toggle">
                             <i class="glyphicon glyphicon-cog text-orange"></i>
                             Switch User Acc
                         </a>
