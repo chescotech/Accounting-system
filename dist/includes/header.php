@@ -103,7 +103,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
     <nav class="navbar navbar-static-top" >
         <div class="container-fluid">
             <div class="navbar-header" style="padding-left:20px">
-                <a href="home.php" class="navbar-brand"><b><i class="glyphicon glyphicon-home"></i> <?php echo $branch_name; ?> </b></a>
+                <a href="../AdminPortal/home.php" class="navbar-brand"><b><i class="glyphicon glyphicon-home"></i> <?php echo $branch_name; ?> </b></a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
@@ -111,7 +111,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li class="dropdown notifications-user">
-                        <a href="home.php">
+                        <a href="../AdminPortal/home.php">
                             <i class="glyphicon glyphicon-home text-green"></i> Home
                         </a>
                     </li>
