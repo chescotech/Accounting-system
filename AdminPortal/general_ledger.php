@@ -18,8 +18,9 @@ endif;
     <title>Sales Report | <?php include('../dist/includes/title.php'); ?></title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -39,19 +40,23 @@ endif;
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
     <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
-    <script type="text/javascript" src="../dist/js/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="../dist/js/jquery.min.js"></script> -->
     <script type="text/javascript" src="../dist/js/moment.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../dist/css/bootstrap.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../dist/css/bootstrap.css" /> -->
 
     <!-- Include Date Range Picker -->
-    <script type="text/javascript" src="../plugins/daterangepicker/daterangepicker.js"></script>
-    <link rel="stylesheet" type="text/css" href="../plugins/daterangepicker/daterangepicker.css" />
+    <!-- <script type="text/javascript" src="../plugins/daterangepicker/daterangepicker.js"></script> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../plugins/daterangepicker/daterangepicker.css" /> -->
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="../plugins/datatables/table-exporter.js"></script>
+
     <script type="text/javascript">
         google.charts.load('current', {
             'packages': ['corechart']
@@ -127,12 +132,16 @@ endif;
             margin-bottom: 5px;
             /* Adjust the value as needed */
         }
+
+        .hidden {
+        display: none;
+    }
+
     </style>
 </head>
 
 <body class="hold-transition skin-<?php echo $_SESSION['skin']; ?> layout-top-nav">
     <div class="wrapper">
-        <!-- ... (rest of your HTML content) ... -->
         <?php
         include('../dist/includes/header_admin.php');
         include('../Objects/Objects.php');
@@ -286,7 +295,7 @@ endif;
                                             <tbody>
                                                 <?php
                                                 $totalSold = 0;
-
+                                                $buttonCounter = 0; 
                                                 while ($row = mysqli_fetch_array($query)) {
                                                     $totalSold = $row['credit'];
 
@@ -303,6 +312,9 @@ endif;
                                                     $expensesQuery = mysqli_query($con, "SELECT SUM(amount) AS total_expenses FROM expenses_tb WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
                                                     $expensesRow = mysqli_fetch_array($expensesQuery);
                                                     $totalExpenses = $expensesRow['total_expenses'];
+
+                                                    $buttonCounter++;
+                                                    $dataTarget = "details-container-$buttonCounter";
                                                 ?>
                                                     <tr>
                                                         <td><?php echo $row['reference']; ?></td>
@@ -315,15 +327,16 @@ endif;
                                                         <td></td>
                                                         <td><br> <?php echo 'K ' . number_format($totalSold, 2); ?></td>
                                                     </tr>
+                                            
                                                     <tr>
                                                         <td colspan="9">
                                                             <table>
                                                                 <thead>
                                                                     <tr>
-                                                                        <button class="toggle-details-button btn btn-success">View Details</button>
+                                                                    <button class="toggle-details-button btn btn-success" data-target="<?php echo $dataTarget; ?>">View Details</button>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody class="details-container ">
+                                                                 <tbody class="<?php echo $dataTarget; ?> hidden">
                                                                     <tr>
                                                                         <td style="color:green; font-weight:bold;">Revenue</td>
                                                                     </tr>
@@ -358,9 +371,9 @@ endif;
                                                                     ?>
                                                                 </tbody>
                                                             </table>
-
                                                         </td>
                                                     </tr>
+
                                                 <?php
                                                 }
                                                 ?>
@@ -376,7 +389,7 @@ endif;
         </div>
         <?php include('../dist/includes/footer.php'); ?>
     </div>
-    <script src="../plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <!-- <script src="../plugins/jQuery/jQuery-2.2.0.min.js"></script> -->
     <script src="../bootstrap/js/bootstrap.min.js"></script>
     <script src="../plugins/select2/select2.full.min.js"></script>
     <script src="../plugins/input-mask/jquery.inputmask.js"></script>
@@ -403,7 +416,7 @@ endif;
     <script src="../dist/js/demo.js"></script>
     <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
-    <script>
+    <!-- <script>
         $(function() {
             $("#example1").DataTable();
             $('#example2').DataTable({
@@ -486,7 +499,7 @@ endif;
                 showInputs: false
             });
         });
-    </script>
+    </script> -->
     <script>
         $(document).ready(function() {
             $('#all_branches').on('change', function() {
@@ -517,21 +530,27 @@ endif;
     </script>
 
 
-    <script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
         const toggleButtons = document.querySelectorAll('.toggle-details-button');
 
         toggleButtons.forEach(toggleButton => {
             toggleButton.addEventListener('click', () => {
-                const detailsContainer = toggleButton.nextElementSibling;
+                const targetId = toggleButton.getAttribute('data-target');
+                const detailsContainer = document.querySelector(`.${targetId}`);
 
                 if (detailsContainer.classList.contains('hidden')) {
-                    detailsContainer.classList.remove('hidden'); 
+                    detailsContainer.classList.remove('hidden');
                 } else {
-                    detailsContainer.classList.add('hidden'); 
+                    detailsContainer.classList.add('hidden');
                 }
             });
         });
-    </script>
+    });
+</script>
+
+
+
 </body>
 
 </html>
