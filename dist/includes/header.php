@@ -206,17 +206,11 @@ while ($row1 = mysqli_fetch_array($query3)) {
                         </ul>
                     </li>
 
-                    <li class="dropdown notifications-user">
-                        <a href="credit_customer">
-                            <i class="glyphicon glyphicon-user text-green"></i> credit Note
-                        </a>
-                        <ul class="dropdown-menu">
-                        </ul>
-                    </li>
+                 
 
                     <li class="dropdown notifications-menu">
                         <a id="stock" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="glyphicon glyphicon-wrench"></i> Invoicing 
+                            <i class="glyphicon glyphicon-wrench"></i> customer 
                         </a>
                         <ul class="dropdown-menu">
                             <li>
@@ -237,6 +231,12 @@ while ($row1 = mysqli_fetch_array($query3)) {
                                     <li>
                                         <a href="sales_receipt.php">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Sales Reciept
+                                        </a>
+                                    </li>
+
+                                    <li >
+                                        <a href="../user/credit_customer">
+                                            <i class="glyphicon glyphicon-user text-green"></i> credit Note
                                         </a>
                                     </li>
 
@@ -306,10 +306,47 @@ while ($row1 = mysqli_fetch_array($query3)) {
                             <i class="glyphicon glyphicon-user text-green"></i> Users
                         </a>
                         <ul class="dropdown-menu">
+                        </ul>
+                    </li>
+
+                    <li class="dropdown notifications-user">
+                        <a href="../AdminPortal/cash_flow.php">
+                            <i class="glyphicon glyphicon-user text-green"></i> cash Flow
+                        </a>
+                        <ul class="dropdown-menu">
 
 
                         </ul>
                     </li>
+                    <li class="dropdown notifications-menu">
+                        <a id="reports" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="glyphicon glyphicon-stats"></i> Accounts
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <ul class="menu">                                  
+                                    <li>
+                                        <a href="../AdminPortal/accountschart.php">
+                                            <i class="glyphicon glyphicon-stats text-green"></i> Chart of Accounts
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="../AdminPortal/general_ledger.php">
+                                            <i class="glyphicon glyphicon-stats text-green"></i> General Ledger
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="../AdminPortal/cash_flow.php">
+                                            <i class="glyphicon glyphicon-stats text-green"></i> Cash Flow
+                                        </a>
+                                    </li>
+                                   
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
 
                     <li class="dropdown notifications-menu">
                         <a id="reports" href="#" class="dropdown-toggle" data-toggle="dropdown">
