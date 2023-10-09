@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>CHESCO POS</title>
+        <title>CHESCO ACCOUNTS</title>
     </head>
     <body style="background-color: #3386FF">
     <center><img src="pos_logo.png" width="200px" height="200px"></center>
@@ -59,7 +59,7 @@
 
             </form>
             <div id="agh">
-               <p  style="color: white"><b>Website : www.chescopos.com</b></p>                        
+               <p  style="color: white"><b>Website : www.chesco-tech.com</b></p>                        
                          <p style="color: white"><b>Support : support@chesco-tech.com</b></p>
                          <p style="color: white"><b>Support Calls : 260963325972</b></p>
             </div>

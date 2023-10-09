@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(0);
+error_reporting(E_ALL);
 session_start();
 if (empty($_SESSION['id'])) :
     header('Location:../index.php');
@@ -298,7 +298,7 @@ endif;
 
                                                 while ($row = mysqli_fetch_array($query)) {
                                                     // Fetch and calculate the total expenses for this payment account
-                                                    $expensesQuery = mysqli_query($con, "SELECT *, SUM(amount) AS total_expenses FROM expenses_tb WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
+                                                    $expensesQuery = mysqli_query($con, "SELECT *, SUM(amount) AS total_expenses FROM expenses_tb ") or die(mysqli_error($con));
                                                     $expensesRow = mysqli_fetch_array($expensesQuery);
                                                     $totalExpenses = $expensesRow['total_expenses'];
 
@@ -432,7 +432,6 @@ endif;
             });
         });
     </script>
-
     <script>
         $(document).ready(function() {
             // Trigger change event to initially check the "All Branches" checkbox
@@ -461,8 +460,6 @@ endif;
             });
         });
     </script>
-
-
 
 </body>
 
