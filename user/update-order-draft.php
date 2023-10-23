@@ -460,7 +460,7 @@ $queryb=mysqli_query($con,"select balance from customer where cust_id='$cid'")or
                             "lengthChange": false,
                             "searching": false,
                             "ordering": true,
-                            x `
+                            
           "info": true,
           "autoWidth": false
         });

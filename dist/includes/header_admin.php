@@ -229,13 +229,13 @@ while ($row1 = mysqli_fetch_array($query3)) {
                                     </li>
 
                                     <li>
-                                        <a href="../user/sales_receipt.php">
+                                        <a href="../user/sales_receipt_draft.php">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Sales Reciept
                                         </a>
                                     </li>
 
                                     <li >
-                                        <a href="../user/credit_customer">
+                                        <a href="../user/credit_draft">
                                             <i class="glyphicon glyphicon-user text-green"></i> credit Note
                                         </a>
                                     </li>

@@ -1,4 +1,5 @@
-<?php session_start();
+<?php
+session_start();
 if (empty($_SESSION['id'])) :
     header('Location:../index.php');
 endif;
@@ -8,6 +9,8 @@ endif;
 
 if (isset($_POST['selected_cust_id'])) {
     $_SESSION['selected_cust_id'] = $_POST['selected_cust_id'];
+
+    $customer_id =  $_SESSION['selected_cust_id'];
 }
 include('Classes/DAO.php');
 
@@ -31,7 +34,7 @@ $DAO = new DAO();
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="../plugins/select2/select2.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
+             folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
     <script src="../dist/js/jquery.min.js"></script>
 
@@ -91,87 +94,73 @@ $DAO = new DAO();
                     <div class="row">
                         <div class="col-md-8">
                             <div class="box box-primary">
-                                <div class="box-header">
-                                    <h3 class="box-title">Credit Transaction.</h3>
-                                    <br>
-                                </div>
-                                <div class="box-body">
+                                <div class="box-body">                                   
                                     <form method="post" action="credit_temp_add.php">
-                                        <div class="row">
+                                        <div class="row" style="min-height:400px">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="date">Credit Transaction</label>
+                                                    <label for="date">Product Name</label>
                                                     <select class="form-control select2" name="prod_name" tabindex="1">
                                                         <?php
                                                         $branch = $_SESSION['branch'];
-                                                        $cid = $_REQUEST['cid'];
-                                                        $cid2 = $_GET['order_no'];
+                                                        $cid = $_GET['order_no'];
                                                         $branch_id_user = $_SESSION['branch_id_user'];
                                                         include('../dist/includes/dbcon.php');
-
-                                                        $query2 = mysqli_query($con, "SELECT * FROM draft_temp_trans WHERE branch_id='$branch' AND cust_id='$cid2' GROUP BY order_no") or die(mysqli_error($con));
-
+                                                        $query2 = mysqli_query($con, "select * from product where branch_id='$branch' AND stock_branch_id='$branch_id_user' AND prod_qty >0  order by prod_name") or die(mysqli_error($con));
                                                         while ($row = mysqli_fetch_array($query2)) {
-                                                            $creId = $row['temp_trans_id'];
-                                                            $cid3 = $row['order_no'];
-                                                            $pro_id = $row['prod_id'];
-                                                            $cust_id = $row['cust_id'];
-                                                            $cus_name = $row['customer_name'];
-                                                            $price = $row['price'];
-                                                            $qty = $row['qty'];
-                                                            $Total = ($qty * $price);
-
-                                                            // Check if the order number exists in the credit_note table
-                                                            $check_query = mysqli_query($con, "SELECT * FROM credit_note WHERE invoice_no='$cid3'");
-                                                            if (mysqli_num_rows($check_query) > 0) {
-                                                                // If it exists, and the invoice number is not equal to 0, then do not display it
-                                                                if ($cid3 != 0) {
-                                                                    continue;
-                                                                }
-                                                            }
-
                                                         ?>
-                                                            <option value="<?php echo $cid3; ?>">
-                                                                <?php echo $cus_name . " INVOICE NO (" . $cid3 . ")"; ?>
+                                                            <option value="<?php echo $row['prod_id']; ?>">
+                                                                <?php echo $row['prod_name'] . " Available(" . $row['prod_qty'] . ")"; ?>
                                                             </option>
-                                                        <?php
-                                                        }
-                                                        ?>
+                                                        <?php } ?>
                                                     </select>
-
-
-                                                    <input type="hidden" class="form-control" name="cid" value="<?php echo $cid; ?>">
-                                                    <input type="hidden" class="form-control" name="qty" value="<?php echo $qty; ?>">
-                                                    <input type="hidden" class="form-control" name="cus_name" value="<?php echo $cus_name; ?>">
-                                                    <input type="hidden" class="form-control" name="cid2" value="<?php echo $cid3; ?>">
-                                                    <input type="hidden" class="form-control" name="cust_id" value="<?php echo $cust_id; ?>">
-                                                    <input type="hidden" class="form-control" name="price" value="<?php echo $price; ?>">
-                                                    <input type="hidden" class="form-control" name="qty" value="<?php echo $qty; ?>">
+                                                    <input type="hidden" class="form-control" name="cid" value="<?php echo $_GET['order_no'] ?>" required>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <!-- <input type="hidden" class="form-control" name="prod_id" value="" required>
+                                                <input type="hidden" class="form-control" name="prod_price" value="" required> -->
+                                                <!-- <input type="hidden" class="form-control" name="cid" value="<?php echo $cid; ?>" required> -->
+                                            </div>
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label for="date">Quantity</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control pull-right" id="date" name="qty" placeholder="Quantity" tabindex="2" value="1" required>
+                                                    </div><!-- /.input group -->
+                                                </div><!-- /.form group -->
+                                            </div>
+
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label for="date">Change Price</label>
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control pull-right" id="date" placeholder="change price" tabindex="2" value="" name="price">
+                                                    </div><!-- /.input group -->
+                                                </div><!-- /.form group -->
+                                            </div>
+
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label for="date"></label>
                                                     <div class="input-group">
                                                         <button class="btn btn-lg btn-primary" type="submit" tabindex="3" name="addtocart">+</button>
                                                     </div>
-
                                                 </div>
-
-                                            </div>
-                                        </div>
                                     </form>
+
+                                    
+
 
                                     <?php
                                     $cusid = $_GET["order_no"];
                                     $query2 = mysqli_query($con, "SELECT cust_first FROM customer WHERE cust_id='$cusid'") or die(mysqli_error($con));
                                     while ($row = mysqli_fetch_array($query2)) {
                                         $cname = $row['cust_first'];
-                                    } ?>
+                                    }
+                                    ?>
+                                    <a href="#add_service<?php echo $cusid; ?>" data-target="#add_service<?php echo $cusid; ?>" data-toggle="modal" style="color:#3c8dbc; display:flex; justify-content:start;" class="small-box-footer"> <b> Add Credit Note Item </b> <i class="glyphicon glyphicon-plus-sign text-red"></i></a>
 
-
-
-                                    <a href="#add_service<?php echo $cusid; ?>" data-target="#add_service<?php echo $cusid; ?>" data-toggle="modal" style="color:#3c8dbc;" class="small-box-footer"> <b>Manual Credit Transaction </b> <i class="glyphicon glyphicon-plus-sign text-red"></i></a>
                                     <div id="add_service<?php echo $cusid; ?>" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                                         <div class="modal-dialog">
                                             <div class="modal-content" style="height:auto">
@@ -214,12 +203,13 @@ $DAO = new DAO();
                                 <div class="col-md-12">
 
                                     <?php
-                                    echo 'branch' . $branch_id_user;
+                                    //echo 'branch' . $branch_id_user;
                                     $queryb = mysqli_query($con, "select balance from customer where cust_id='$cid'") or die(mysqli_error($con));
                                     $rowb = mysqli_fetch_array($queryb);
                                     $balance = $rowb['balance'];
 
-                                    if ($balance > 0) $disabled = "disabled=true";
+                                    if ($balance > 0)
+                                        $disabled = "disabled=true";
                                     else {
                                         $disabled = "";
                                     }
@@ -228,9 +218,8 @@ $DAO = new DAO();
                                     <table class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Inovice no</th>
+                                                <th>Prod no</th>
                                                 <th>Customer Name</th>
-                                                <th>Description</th>
                                                 <th>qty</th>
                                                 <th>Price</th>
                                                 <th>Total</th>
@@ -247,7 +236,7 @@ $DAO = new DAO();
                                             $totalDiscount = 0;
                                             $newPrice = 0;
                                             while ($row = mysqli_fetch_array($query)) {
-                                                $id = $row['invoice_no'];
+                                                $id = $row['prod_id'];
                                                 $amount = $row['amount'];
                                                 $delete = $row['id'];
                                                 $cname = $row['name'];
@@ -259,7 +248,6 @@ $DAO = new DAO();
                                                 <tr>
                                                     <td> <?php echo $invoiceNoDisplay; ?></td>
                                                     <td><?php echo $row['name']; ?></td>
-                                                    <td><?php echo $row['description']; ?></td>
                                                     <td><?php echo $row['qty']; ?></td>
                                                     <td><?php echo $row['price']; ?></td>
                                                     <td><?php echo number_format($Total, 2); ?></td>
@@ -312,7 +300,6 @@ $DAO = new DAO();
                                                 </div>
 
                                             <?php
-
                                             }
                                             ?>
                                         </tbody>
@@ -330,74 +317,72 @@ $DAO = new DAO();
                         </div><!-- /.box-body -->
 
 
-                        <?php 
+                        <?php
                         $query = mysqli_query($con, "SELECT amount FROM credit_temp") or die(mysqli_error($con));
 
-                        
                         $grandTotal = 0;
-                        
+
                         // Loop through the query result and calculate the sum
                         while ($row = mysqli_fetch_assoc($query)) {
                             $grandTotal += $row['amount'];
                         }
                         ?>
-                        
-                        
 
-                        <div class="col-md-3">
-                            <div class="box box-primary">
 
-                                <div class="box-body">
-                                    <!-- Date range -->
-                                    <form method="post" name="autoSumForm" action="credit_complete.php" onsubmit="return confirm('Are you sure you want to complete this action?');">
-                                        <div class="form-group com">
-                                            <label>Grand Total</label>
-                                            <input class="form-control center" style="text-align: center;" type="text" value="<?php echo number_format($grandTotal, 2); ?>" readonly>
-                                        </div>
-                                        <div class="form-group com">
-                                            <label>Message displayed on credit Note</label>
-                                            <textarea name="mc" form-control required></textarea>
-                                        </div>
-                                        <div class="form-group com">
-                                            <label>Message displayed on credit Note</label>
-                                            <textarea name="ms" form-control required> </textarea>
-                                        </div>
-                                        <button class="btn btn-lg btn-block btn-primary" id="daterange-btn" name="complete" type="submit" tabindex="7">
-                                            Complete
-                                        </button>
-                                    </form>
-                                </div>
 
-                            </div>
-                        </div>
                     </div>
             </div>
 
+            <div class="col-md-3">
+                <div class="box box-primary">
+
+                    <div class="box-body">
+                        <!-- Date range -->
+                        <form method="post" name="autoSumForm" action="credit_complete.php" onsubmit="return confirm('Are you sure you want to complete this action?');">
+                            <div class="form-group com">
+                                <label>Grand Total</label>
+                                <input class="form-control center" style="text-align: center;" type="text" value="<?php echo number_format($grandTotal, 2); ?>" readonly>
+                            </div>
+                            <div class="form-group com">
+                                <label>Message displayed on credit Note</label>
+                                <textarea name="mc" form-control required></textarea>
+                            </div>
+                            <div class="form-group com">
+                                <label>Message on Statement</label>
+                                <textarea name="ms" form-control required> </textarea>
+                            </div>
+                            <button class="btn btn-lg btn-block btn-primary" id="daterange-btn" name="complete" type="submit" tabindex="7">
+                                Complete
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
-        < <?php
+        <?php
+        include('../dist/includes/dbcon.php');
 
-            include('../dist/includes/dbcon.php');
+        if (isset($_POST['id'])) { // Corrected parameter name
+            $invoiceId = $_POST['id'];
 
-            if (isset($_POST['id'])) { // Corrected parameter name
-                $invoiceId = $_POST['id'];
+            // Perform the delete operation based on the invoice id
+            $deleteQuery = "DELETE FROM credit_temp WHERE id = '$invoiceId'"; // Corrected column name
 
-                // Perform the delete operation based on the invoice id
-                $deleteQuery = "DELETE FROM credit_temp WHERE id = '$invoiceId'"; // Corrected column name
-
-                if (mysqli_query($con, $deleteQuery)) {
-                    // Deletion was successful
-                    echo "success";
-                } else {
-                    // Error occurred during deletion
-                    echo "error";
-                }
-
-                mysqli_close($con);
+            if (mysqli_query($con, $deleteQuery)) {
+                // Deletion was successful
+                echo "success";
             } else {
-                echo "Invalid request.";
+                // Error occurred during deletion
+                echo "error";
             }
-            ?> </section><!-- /.content -->
+
+            mysqli_close($con);
+        } else {
+            // echo "Invalid request.";
+        }
+        ?> </section><!-- /.content -->
 
 
     </div><!-- /.container -->
@@ -530,8 +515,6 @@ $DAO = new DAO();
             });
         });
     </script>
-
-
     <script>
         function confirmEdit(editId) {
             // Use the editId to target the correct modal

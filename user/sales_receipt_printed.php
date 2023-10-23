@@ -62,7 +62,7 @@
     $branch = $_SESSION['branch'];
     $orderno = $_GET['order_no'];
 
-    $query_cus = mysqli_query($con, "SELECT * FROM sales WHERE order_no='$orderno'  ") or die(mysqli_error($con));
+    $query_cus = mysqli_query($con, "SELECT * FROM sales WHERE invoice_no='$orderno'  ") or die(mysqli_error($con));
     $row = mysqli_fetch_array($query_cus);
     $customer_id = $row['customer_id'];
     $invoiceDate = $row['date_added'];
@@ -83,11 +83,12 @@
     $customerRows = mysqli_fetch_array($customer);
     $tpin = $customerRows['tpin'];
     $acc = $customerRows['Account_Number'];
+    $id = $_GET['id'];
     ?>
 
     <center>
         <a class="btn btn-success btn-print" href="" onclick="window.print()"><i class="glyphicon glyphicon-print"></i> Print</a>
-      <a class="btn btn-lg btn-warning" href="javascript:void(0);" onclick="window.history.back();">Back</a>
+        <a class="btn btn-lg btn-warning" href="javascript:void(0);" onclick="window.history.back();">Back</a>
     </center>
     <br></br>
 
@@ -289,7 +290,9 @@
                         <th class="qt" style="border:1px solid black; border-bottom:0; border-right:0;">ACCOUNT</th>
                         <th class="qt" style="border:1px solid black;border-bottom:0; border-right:0;">TERMINAL</th>
                         <th class="qt" style="border:1px solid black;border-bottom:0; border-right:0;">EXCHANGE RATE</th>
+
                         <th class="qt" style="border:1px solid black;border-bottom:0; border-right:0;">LPO NO.</th>
+
                         <th class="qt" style="border:1px solid black;border-bottom:0; border-right:0;"> PAYMENT TERMS.</th>
                         <th class="qt" style="border:1px solid black;"> CUSTOMER TPIN.</th>
 
@@ -301,6 +304,7 @@
                         <td style="border:1px solid black;border-right:0;">Master Warehouse</td>
                         <td style="border:1px solid black;border-right:0;"><?php echo $exchange_rate; ?></td>
                         <td style="border:1px solid black; border-right:0;"> <?php echo $order_shoprite; ?></td>
+
                         <td style="border:1px solid black;border-right:0;"> <?php echo $payterm; ?> </td>
                         <td style="border: 1px solid black;border-top:0;">
                             <?php
@@ -322,30 +326,31 @@
                     <thead>
                         <tr>
 
-                            <th class="per" style="border:1px solid black; border-right:0">QUANTITY</th>
-                            <th class="dis" style="border:1px solid black;  width:25rem; border-right:0">DESCRIPTION</th>
+                            <th class="per" style="border:1px solid black; border-right:0"">QUANTITY</th>
+                            <th class="dis" style="border:1px solid black;  width:25rem; border-right:0"">DESCRIPTION</th>
 
-                            <th class="per" style="border:1px solid black; border-right:0">UNIT PRICE</th>
+                            <th class="per" style="border:1px solid black; border-right:0"">UNIT PRICE</th>
                             <th class="per" style="border:1px solid black;">TOTAL</th>
 
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $query_ = mysqli_query($con, "SELECT * FROM `sales` left  JOIN modes_of_payment_tb on modes_of_payment_tb.payment_mode_id=sales.modeofpayment WHERE sales_id = (SELECT MAX(sales_id) FROM sales WHERE user_id='$id' ) AND user_id='$id'  ") or die(mysqli_error($con));
+                        
+                        $query_ = mysqli_query($con, "SELECT sales_details.description, sales_details.price,sales_details.qty,sales.* FROM sales INNER JOIN sales_details ON sales.sales_id = sales_details.sales_id WHERE sales.sales_id='$id' ") or die(mysqli_error($con));
 
                         $row_ = mysqli_fetch_array($query_);
 
                         $sales_id = $row_['sales_id'];
                         $sid = $row_['sales_id'];
-
+                        
                         $discount = $row_['discount'];
                         $totalDiscount = 0;
-                        $query = mysqli_query($con, "select * from sales_details LEFT join product on product.prod_id=sales_details.prod_id where sales_id='$sid'") or die(mysqli_error($con));
+                        $query2 = mysqli_query($con, "select * from sales_details LEFT join product on product.prod_id=sales_details.prod_id where sales_id='$sid'") or die(mysqli_error($con));
 
-                       
-                        while ($row = mysqli_fetch_array($query)) {
-                            $order_no = $row['order_no'];
+                        // echo "SELECT * FROM `sales` INNER JOIN modes_of_payment_tb on modes_of_payment_tb.payment_mode_id=sales.modeofpayment WHERE sales_id = (SELECT MAX(sales_id) FROM sales WHERE user_id='$id' ) AND user_id='$id'  ";
+                        while ($row = mysqli_fetch_array($query2)) {
+                            $order_no = $row['invoice_no'];
                             $count++;
                             // $excInc = $row['Exc/Inc'];
 
@@ -381,10 +386,10 @@
                             $subTotal_ += $row['qty'] * $row['price'];
 
                             echo ' <tr>
-                                        <td style="border:1px solid black;border-right:0; border-top:0;"> ' . $qty . '  </td>
+                                        <td style="border:1px solid black;border-right:0; border-top:0;">  N/A   </td>
                                         <td style="border:1px solid black; border-right:0; border-top:0;">' . $prodName . '</td>
-                                        <td style="border:1px solid black; border-right:0; border-top:0;">' . $price . '</td>
-                                        <td style="border:1px solid black; border-top:0;">' . $total . '</td>
+                                        <td style="border:1px solid black; border-right:0; border-top:0;">' . $formatted_price . '</td>
+                                        <td style="border:1px solid black; border-top:0;">' . $formatted_total . '</td>
                                         </tr>';
                         }
 
@@ -402,8 +407,7 @@
                     <td style=""> </td>
                     <td style="text-align:start;"></td>
                     <td style="">SUB TOTAL</td>
-                   
-                    <td style="border:1px solid black;border-top:0;">' . number_format($subTotal, 2) . '</td>
+                    <td style="border: 1px solid black; border-top: 0;">' . $currency_symbol . ' ' . number_format($subTotal, 2) . '</td>
                     </tr>';
 
                         echo ' <tr>
@@ -411,7 +415,7 @@
                     <td style="text-align:start;"> </td>
                     <td style="">VAT @ 16%</td>
                    
-                    <td style="border:1px solid black; border-top:0;">' . number_format($totalVatAmountonsider,2) . '</td>
+                    <td style="border:1px solid black; border-top:0;">' . $currency_symbol . '' . number_format($totalVatAmountonsider,2) . '</td>
                     </tr>';
 
                         $fin_total = ($subTotal_less - $discount) + $totalVatAmountonsider;
@@ -421,7 +425,7 @@
                                             <td style="text-align:start;"> </td>
                                             <td style="">TOTAL</td>
                                            
-                                            <td style="border:1px solid black; border-top:0;">' . number_format(($subTotal - $discount) + $totalVatAmountonsider, 2) . '</td>
+                                            <td style="border:1px solid black; border-top:0;">' . $currency_symbol . '' . number_format(($subTotal - $discount) + $totalVatAmountonsider, 2) . '</td>
                                             </tr>';
                         ;
                         ?>

@@ -4,56 +4,57 @@ error_reporting(E_ALL);
 include('../dist/includes/dbcon.php');
 
 if (isset($_POST['addtocart'])) {
-    $prod_name = $_POST['prod_name'];
-    $cus_name = $_POST['cus_name'];
-    $cid2 = $_POST['prod_name'];
-    $cust_id = $_POST['cust_id'];
-  
-    // Initialize an array to store the values to be inserted
-    $insertValues = [];
+    // $prod_name = $_POST['prod_name'];
+    $cust_id = $_POST['cid'];
+    $qty = $_POST['qty'];
+    $price = $_POST['price'];
+    // $prod_price = $_POST['prod_price'];
+    $prod_id = $_POST['prod_name'];
+    echo $cust_id;
 
-    // Check if the row is already present in credit_temp
-    $checkSql = "SELECT COUNT(*) as count FROM credit_temp WHERE invoice_no = '$cid2'";
-    $checkResult = mysqli_query($con, $checkSql);
-    $row = mysqli_fetch_assoc($checkResult);
+    $qtyChecker = mysqli_query($con, "select prod_sell_price,prod_name from product WHERE prod_id='$prod_id'")or die(mysqli_error($con));
+    $qtyRows = mysqli_fetch_array($qtyChecker);
+    // $qty = $qtyRows['prod_qty'];
+    $prod_price = $qtyRows['prod_sell_price'];
+    $prod_name = $qtyRows['prod_name'];
 
-    if ($row['count'] == 0) {
-        // Iterate through all rows in the draft_temp_trans table with the same order_no
-        $sql = "SELECT * FROM draft_temp_trans WHERE order_no='$cid2'";
-        $result = mysqli_query($con, $sql);
+    $credprice = $price !== '' ? $price : $prod_price;
+    $total = $qty * $credprice; 
 
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $description = $row['description'];
-                $price = $row['price'];
-                $qty = $row['qty'];
-                $prod_id = $row['prod_id'];
-                $total = $qty * $price;
+    // Check if the product with the same prod_id already exists in the cart
+    $checkQuery = "SELECT * FROM credit_temp WHERE prod_id = '$prod_id' AND cust_id = '$cust_id'";
+    $checkResult = mysqli_query($con, $checkQuery);
 
-                // Add values to the insert array
-                $insertValues[] = "('$cus_name', '$total', CAST('$cid2' AS UNSIGNED), '$row[temp_trans_id]', '$cust_id', '$qty', '$price','$description','$prod_id')";
-            }
+    if (mysqli_num_rows($checkResult) > 0) {
+        // Product already exists in the cart, update quantity and total price
+        $row = mysqli_fetch_assoc($checkResult);
+        $newQty = $row['qty'] + $qty;
+        $newTotal = $newQty * $credprice;
 
-            // Build the query to insert all rows at once
-            $insertQuery = "INSERT INTO credit_temp (name, amount, invoice_no, invoice_id, cust_id, qty, price,description, prod_id) 
-                            VALUES " . implode(",", $insertValues);
+        $updateQuery = "UPDATE credit_temp SET qty = '$newQty', amount = '$newTotal' WHERE prod_id = '$prod_id' AND cust_id = '$cust_id'";
 
-            if (mysqli_query($con, $insertQuery)) {
-                
-                echo "Data inserted successfully for order_no $cid2";
-
-
-            } else {
-                echo "Error: " . mysqli_error($con);
-            }
+        if (mysqli_query($con, $updateQuery)) {
+            echo "Product quantity updated successfully.";
+        } else {
+            echo "Error updating product quantity: " . mysqli_error($con);
         }
     } else {
-        echo "Data already exists for order_no $cid2 in credit_temp.";
+        // Product doesn't exist in the cart, insert a new row
+        $insertQuery = "INSERT INTO credit_temp (name, amount, cust_id, qty, price, description, prod_id) 
+                        VALUES ('$prod_name', '$total', '$cust_id', '$qty', '$credprice', '$cus_name', '$prod_id' )";
+
+        if (mysqli_query($con, $insertQuery)) {
+            echo "Product added to the cart.";
+        } else {
+            echo "Error adding product to the cart: " . mysqli_error($con);
+        }
     }
+
+    echo $cust_id;
 
     mysqli_close($con);
 
-    Header("Location: credit_note?order_no=" . urlencode($cust_id) . "&addtocart=");
+    // It's better to use a proper URL and not concatenate data like this, also don't include an empty query parameter
+    Header("Location: credit_note?order_no=" . urlencode($cust_id));
     exit();
 }
-?>

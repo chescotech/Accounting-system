@@ -7,7 +7,7 @@
     session_start();
 
     $id = $_SESSION['id'];
-     $invoiceNumber = $_GET['invoice'];
+     $invoiceNumber = $_GET['order_no'];
     $queryb = mysqli_query($con, "select * from branch")or die(mysqli_error($con));
     $rowb = mysqli_fetch_array($queryb);
 
@@ -81,7 +81,7 @@
     ?>
     <center>
         <a class = "btn btn-success btn-print" href = "" onclick = "window.print()"><i class ="glyphicon glyphicon-print"></i> Print</a> 
-        <a class = "btn btn-primary btn-print" href = "cash_transaction.php"><i class ="glyphicon glyphicon-arrow-left"></i> |  NEXT SALE</a>
+        <a class = "btn btn-primary btn-print" href = "credit_draft.php"><i class ="glyphicon glyphicon-arrow-left"></i> |  NEXT SALE</a>
     </center>
     <br></br>
     <head>
