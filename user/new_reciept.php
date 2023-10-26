@@ -85,7 +85,7 @@
     ?>
     <center>
         <a class = "btn btn-success btn-print" href = "" onclick = "window.print()"><i class ="glyphicon glyphicon-print"></i> Print</a> 
-        <a class = "btn btn-primary btn-print" href = "select_customer"><i class ="glyphicon glyphicon-arrow-left"></i> |  NEXT SALE</a>
+        <a class = "btn btn-primary btn-print" href = "sales_receipt_draft"><i class ="glyphicon glyphicon-arrow-left"></i> |  NEXT SALE</a>
     </center>
     <br></br>
     <head>

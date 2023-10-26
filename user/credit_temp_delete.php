@@ -12,9 +12,8 @@ if (isset($_POST['manual'])) {
     $amount = ($price * $qty);
 
 
-    // Build the SQL query (be cautious of SQL injection)
     $sql = "INSERT INTO credit_temp (name, description, amount, cust_id, qty, price) 
-    VALUES ('$name', '$description', '$amount', '$cust_id', '$qty', '$price')";
+    VALUES ('$description', '$description', '$amount', '$cust_id', '$qty', '$price')";
 
 
     if ($con->query($sql) === TRUE) {

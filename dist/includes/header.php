@@ -238,13 +238,13 @@ $permissions = mysqli_fetch_assoc($userGroup);
                                     </li>
 
                                     <li>
-                                        <a href="sales_receipt.php">
+                                        <a href="sales_receipt_draft.php">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Sales Reciept
                                         </a>
                                     </li>
 
-                                    <li>
-                                        <a href="../user/credit_customer">
+                                    <li >
+                                        <a href="../user/credit_draft">
                                             <i class="glyphicon glyphicon-user text-green"></i> credit Note
                                         </a>
                                     </li>

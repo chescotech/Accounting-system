@@ -67,7 +67,7 @@ if ($barcode != "") {
         echo "<script>document.location='cash_transaction.php?cid=$cid'</script>";
     }
 } else {
-    echo 'here';
+ 
     $user_id = $_SESSION['id'];
     $qty = $_POST['qty'];
     $name = $_POST['prod_name'];

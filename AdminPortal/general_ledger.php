@@ -326,7 +326,6 @@ endif;
                                                         <td></td>
                                                         <td><br> <?php echo 'K ' . number_format($totalSold, 2); ?></td>
                                                     </tr>
-
                                                     <tr>
                                                         <td colspan="9">
                                                             <table>
