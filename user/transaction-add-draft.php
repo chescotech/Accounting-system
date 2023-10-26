@@ -43,6 +43,12 @@ if ($barcode != "") {
                 $price = $row['prod_sell_price'];
             }
 
+            if ($_POST['price'] != "") {
+                $price = $_POST['price'];
+            } else {
+                $price = $row['prod_sell_price'];
+            }
+
             $query1 = mysqli_query($con, "select * from draft_temp_trans where prod_id='$prod_id' and branch_id='$branch' AND order_no='0' ")or die(mysqli_error($con));
             $count = mysqli_num_rows($query1);
 
@@ -63,6 +69,13 @@ if ($barcode != "") {
         echo "<script>document.location='draft-order.php?cid=$cid'</script>";
     }
 } else {
+
+    if ($_POST['price'] != "") {
+        $price = $_POST['price'];
+    } else {
+        $price = $row['prod_sell_price'];
+    }
+
     $name = $_POST['prod_name'];
     $qty = $_POST['qty'];
 
@@ -88,6 +101,13 @@ if ($barcode != "") {
             }
             
             //echo '$typeCustomer'.$typeCustomer;
+
+
+            if ($_POST['price'] != "") {
+                $price = $_POST['price'];
+            } else {
+                $price = $row['prod_sell_price'];
+            }
 
         $query1 = mysqli_query($con, "select * from draft_temp_trans where prod_id='$name' and branch_id='$branch' AND order_no='0' ")or die(mysqli_error($con));
         $count = mysqli_num_rows($query1);

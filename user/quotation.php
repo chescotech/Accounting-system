@@ -42,7 +42,7 @@ endif;
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            <a class="btn btn-lg btn-warning" href="sold-items.php">Back</a>
+            <a class="btn btn-lg btn-warning" href="javascript:void(0)" onclick=" window.history.back()">Back</a>
             <a class="btn btn-lg btn-primary" href="quotations.php"  style="color:#fff;" class="small-box-footer">View Quotations </a>
           </h1>
           <ol class="breadcrumb">
@@ -379,7 +379,7 @@ endif;
                         $query2 = mysqli_query($con, "select * from customer ") or die(mysqli_error($con));
                         while ($row = mysqli_fetch_array($query2)) {
                         ?>
-                          <option value="<?php echo $row['cust_first']; ?>"><?php echo " ( " . $row['cust_first'] . ' - ' . $row['cust_last'] . " ) "; ?></option>
+                          <option value="<?php echo $row['cust_id']; ?>"><?php echo " ( " . $row['cust_first'] . ' - ' . $row['cust_last'] . " ) "; ?></option>
                         <?php } ?>
                       </select>
                     </div>

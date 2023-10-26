@@ -67,13 +67,14 @@ endif;
                                                 <th>Date Created</th>
                                                 <th>Customer</th>                                              
                                                 <th>Edit</th>
-                                                <th>Print Quotation</th>                                              
+                                                
+                                                <th>Documentation</th>                                              
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
                                             $totalAmountDue = 0;
-                                            $query = mysqli_query($con, "SELECT quote_identity AS quote_id,customer,date_added FROM `quotation_tb` GROUP BY quote_identity ORDER BY quote_identity DESC ") or die(mysqli_error($con));
+                                            $query = mysqli_query($con, "SELECT customer.cust_first, customer.cust_last, quote_identity AS quote_id,customer,date_added FROM `quotation_tb` INNER JOIN customer ON  quotation_tb.customer = customer.cust_id GROUP BY quote_identity ORDER BY quote_identity DESC ") or die(mysqli_error($con));
                                             while ($row = mysqli_fetch_array($query)) {
                                                 $customer = $row['customer'];
                                             ?>
@@ -81,16 +82,31 @@ endif;
                                                     <td><?php echo $row['quote_id']; ?></td>
                                                     <td><?php echo $row['date_added']; ?></td>
                                                     <td><?php
-                                                        echo $row['customer'];
+                                                        echo $row['cust_first'];
                                                         ?>
                                                     </td>
 
-                                                    <td>
-                                                        <a href="edit-quotation?customer=<?php echo $customer; ?>&quote_id=<?php echo $row['quote_id']; ?>" style="color: #003eff "><b>Edit Quotation</b></i></a>
+                                                    <td class="span">
+                                                        <a class="btn btn-success" style="color:black; display:flex; margin:1px;" href="edit-quotation?customer=<?php echo $customer; ?>&quote_id=<?php echo $row['quote_id']; ?>" style="color: #003eff "><b>Edit Quotation</b></i></a>
+                                                       
+                                                        <a class="btn btn-danger" style="color:black; display:flex;" onclick="return confirm('Are you sure you want to delete quotation <?php echo $row['quote_id']; ?>')" href="quote_drop.php?quote_id=<?php echo $row['quote_id']; ?>" style="color: #003eff "><b>Delete</b></i></a>
                                                     </td>
+                                                    
+                                                       
+                                                    
                                                     <td>
-                                                        <a href="quotation-reprint-new.php?quote_id=<?php echo $row['quote_id']; ?>" style="color: #003eff "><b>Print Quotation</b></i></a>
+                                                        <a class="btn btn-success" style="color:black;" href="quotation-reprint-new.php?quote_id=<?php echo $row['quote_id']; ?>" style="color: #003eff "><b>Print Quotation</b></i></a>                                    
                                                     </td>
+
+                                                    <td>                                                    
+                                                        <a class="btn btn-success" style="color:black;" onclick="return confirm('Are you sure you want to convert quotation <?php echo $row['quote_id']; ?> to an invoice')" href="convert_to_invoice.php?quote_id=<?php echo $row['quote_id']; ?>&cust_id=<?php echo $row['customer']; ?>" style="color: #003eff "><b>Convert to Invoice</b></i></a>
+                                                    </td>
+
+                                                    <td>                                                   
+                                                        <a class="btn btn-success" style="color:black;" onclick="return confirm('Are you sure you want to convert quotation <?php echo $row['quote_id']; ?> to a receipt')" href="quotation-reprint-new.php?quote_id=<?php echo $row['quote_id']; ?>" style="color: #003eff "><b>Convert to Receipt</b></i></a>
+                                                    </td>
+
+                                                    
                                                   
 
                                                 </tr>

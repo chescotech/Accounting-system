@@ -76,11 +76,14 @@ endif;
                                                         <a class="btn btn-success" style ="color:black;"  href="new_reciept.php?order_no=<?php echo $orderNo; ?>&id=<?php echo $row['sales_id']; ?>" style="color: #003eff "><b>Print receipt</b></a>
                                                     </td>
                                                     <td>
-                                                        <a class="btn btn-success" style ="color:black;"  href="update-receipt.php?orderno=<?php echo $row['invoice_no']; ?>&customer_name=<?php echo $customer_name; ?>&cust_id=<?php echo $row['cust_id']; ?>" style="color: #003eff "><b>View / Update Receipt</b></i></a>
-                                                        <a class="btn btn-success" style="color: black;" href="sales_num_delete.php?id=<?php echo $row['sales_id']; ?>" onclick="return confirm('Are you sure you want to delete this sales Receipt?')">
+                                                        <a class="btn btn-success" style ="color:black;"  href="update-receipt.php?orderno=<?php echo $row['invoice_no']; ?>&customer_name=<?php echo $customer_name; ?>&cust_id=<?php echo $row['cust_id']; ?>" style="color: #003eff "><b>View / Update Receipt</b></i></a>                                                        
+                                                    </td>
+                                                    <td>                                                       
+                                                        <a class="btn btn-danger" style="color: black;" href="sales_num_delete.php?id=<?php echo $row['sales_id']; ?>" onclick="return confirm('Are you sure you want to delete this sales Receipt?')">
                                                             <b>Delete</b>
                                                         </a>
                                                     </td>
+
 
                                                 </tr>
                                             <?php

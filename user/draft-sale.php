@@ -39,7 +39,7 @@ endif;
                     <!-- Content Header (Page header) -->
                     <section class="content-header">
                         <h1>
-                            <a class="btn btn-lg btn-warning" href="home.php">Back</a>
+                            <a class="btn btn-lg btn-warning" href="javascript:void(0)" onclick="window.history.back()">Back</a>
                             <a class="btn btn-lg btn-primary" href="select_customer_credit.php" style="color:#fff;" class="small-box-footer">New Invoice <i class="glyphicon glyphicon-plus text-blue"></i></a>
                         </h1>
                         <ol class="breadcrumb">
@@ -69,6 +69,7 @@ endif;
                                                     <th>View Payment History</th>
                                                     <th>Partial Payment</th>
                                                     <th>Close Invoice</th>
+                                                    <th>Convert to receipt</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -102,7 +103,7 @@ endif;
                                                             ?>
                                                         </td>
                                                         <td>                                                       
-                                                            <a href="incomplete-draft-reciept.php?orderno=<?php echo $row['order_no']; ?>" style="color: #003eff "><b>Print Invoice</b></i></a>
+                                                            <a href="incomplete-draft-reciept.php?orderno=<?php echo $row['order_no']; ?>"   style="color: #003eff "><b>Print Invoice</b></i></a>
                                                         </td>
                                                          <td>                                                       
                                                              <a href="print-delivery-note.php?orderno=<?php echo $row['order_no']; ?>" style="color: #003eff "><b>Print Delivery Note</b></i></a>
@@ -124,6 +125,9 @@ endif;
                                                         </td>
                                                         <td>
                                                             <a href="complete-draft-order.php?orderno=<?php echo $row['order_no']; ?>" style="color:green "><b>Close Invoice</b></i></a>
+                                                        </td>
+                                                        <td>
+                                                            <a onclick="return confirm('Are you sure you want to convert invoice No <?php echo $row['order_no']; ?> to receipt')" href="convert_to_receipt.php?orderno=<?php echo $row['order_no']; ?>" style="color:green "><b>Convert</b></i></a>
                                                         </td>
                                                     </tr>
 <?php } ?>
