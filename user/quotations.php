@@ -7,12 +7,12 @@ endif;
 ?>
 <!DOCTYPE html>
 <html>
-    
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Product | <?php include('../dist/includes/title.php'); ?></title>
-        <!-- Tell the browser to be responsive to screen width -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Product | <?php include('../dist/includes/title.php'); ?></title>
+    <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
@@ -23,7 +23,7 @@ endif;
     folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
     <style>
-        </style>
+    </style>
 </head>
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
 
@@ -65,9 +65,9 @@ endif;
                                             <tr>
                                                 <th>Quotation Number</th>
                                                 <th>Date Created</th>
-                                                <th>Customer</th>                                              
+                                                <th>Customer</th>
                                                 <th>Edit</th>
-                                                <th>Print Quotation</th>                                              
+                                                <th>Print Quotation</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -86,12 +86,12 @@ endif;
                                                     </td>
 
                                                     <td>
-                                                        <a href="edit-quotation?customer=<?php echo $customer; ?>&quote_id=<?php echo $row['quote_id']; ?>" style="color: #003eff "><b>Edit Quotation</b></i></a>
+                                                        <a href="edit-quotation?customer=<?php echo $customer; ?>&quote_id=<?php echo $row['quote_id']; ?>" style="color: #ffe " class="btn btn-success"><b><i class="icon-edit"></i> Edit Quotation</b></i></a>
                                                     </td>
                                                     <td>
-                                                        <a href="quotation-reprint-new.php?quote_id=<?php echo $row['quote_id']; ?>" style="color: #003eff "><b>Print Quotation</b></i></a>
+                                                        <a href="quotation-reprint-new.php?quote_id=<?php echo $row['quote_id']; ?>" style="color: #ffe " class="btn btn-success"><b><i class="icon-print"> Print</b></i></a>
                                                     </td>
-                                                  
+
 
                                                 </tr>
                                             <?php } ?>
