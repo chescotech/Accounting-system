@@ -7,6 +7,9 @@ date_default_timezone_set("Africa/Lusaka");
 ?>
 <?php
 include('../dist/includes/dbcon.php');
+include_once('Classes/Group.php');
+
+$GroupObject = new Group($con);
 
 $branch = $_SESSION['branch'];
 $query = mysqli_query($con, "select * from branch where branch_id='$branch'") or die(mysqli_error($con));
@@ -29,6 +32,12 @@ while ($row1 = mysqli_fetch_array($query3)) {
     mysqli_query($con, "UPDATE discount_tb SET status='notactive' WHERE prod_id='$id' ") or die(mysqli_error($con));
     mysqli_query($con, "update product set prod_sell_price='$discount_price' where prod_id='$id'") or die(mysqli_error($con));
 }
+?>
+
+<?php
+$groupID = $_SESSION['group'];
+$userGroup = $GroupObject->getGroupPermissions($groupID);
+$permissions = mysqli_fetch_assoc($userGroup);
 ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -115,7 +124,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
                             <i class="glyphicon glyphicon-home text-green"></i> Home
                         </a>
                     </li>
-                    <li class="dropdown notifications-menu">
+                    <li class="dropdown notifications-menu" style="display: <?php echo $permissions['setup'] == 'false' ? 'none' : '' ?>;">
                         <a id="setup" href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="glyphicon glyphicon-wrench"></i> Setup
                         </a>
@@ -198,7 +207,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
                         </ul>
                     </li>
 
-                    <li class="dropdown notifications-user">
+                    <li class="dropdown notifications-user" style="display: <?php echo $permissions['expenses'] == 'false' ? 'none' : '' ?>;">
                         <a href="expenses">
                             <i class="glyphicon glyphicon-user text-green"></i> Expenses
                         </a>
@@ -208,7 +217,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
 
 
 
-                    <li class="dropdown notifications-menu">
+                    <li class="dropdown notifications-menu" style="display: <?php echo $permissions['customer'] == 'false' ? 'none' : '' ?>;">
                         <a id="stock" href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="glyphicon glyphicon-wrench"></i> Customer
                         </a>
@@ -252,7 +261,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
                     </li>
 
 
-                    <li class="dropdown notifications-menu">
+                    <li class="dropdown notifications-menu" style="display: <?php echo $permissions['stock'] == 'false' ? 'none' : '' ?>;">
                         <a id="stock" href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="glyphicon glyphicon-wrench"></i> Stock
                         </a>
@@ -301,20 +310,40 @@ while ($row1 = mysqli_fetch_array($query3)) {
                         </ul>
                     </li>
 
-                    <li class="dropdown notifications-user">
+                    <li class="dropdown notifications-user" style="display: <?php echo $permissions['users'] == 'false' ? 'none' : '' ?>;">
                         <a href="users">
                             <i class="glyphicon glyphicon-user text-green"></i> Users
                         </a>
                         <ul class="dropdown-menu">
 
-
                         </ul>
                     </li>
 
+                    <li class="dropdown notifications-menu" style="display: <?php echo $permissions['groups'] == 'false' ? 'none' : '' ?>;">
+                        <a id="groups" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="glyphicon glyphicon-wrench"></i> Groups
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <ul class="menu">
+                                    <li>
+                                        <a href="groups-add.php">
+                                            <i class="glyphicon glyphicon-plus text-info"></i> Add Groups
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="groups-manage.php">
+                                            <i class="glyphicon glyphicon-plus text-info"></i> View Groups
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
 
-                    <li class="dropdown notifications-user">
+                    <li class="dropdown notifications-user" style="display: <?php echo $permissions['cash_flow'] == 'false' ? 'none' : '' ?>;">
                         <a href="cash_flow.php">
-                        <i class="glyphicon glyphicon-stats text-green"></i> Cash Flow
+                            <i class="glyphicon glyphicon-stats text-green"></i> Cash Flow
                         </a>
                         <ul class="dropdown-menu">
 
@@ -322,7 +351,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
                         </ul>
                     </li>
 
-                    <li class="dropdown notifications-menu">
+                    <li class="dropdown notifications-menu" style="display: <?php echo $permissions['accounts'] == 'false' ? 'none' : '' ?>;">
                         <a id="reports" href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="glyphicon glyphicon-stats"></i> Accounts
                         </a>
@@ -338,14 +367,14 @@ while ($row1 = mysqli_fetch_array($query3)) {
                                         <a href="general_ledger.php">
                                             <i class="glyphicon glyphicon-stats text-green"></i> General Ledger
                                         </a>
-                                    </li>                                   
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
 
 
-                    <li class="dropdown notifications-menu">
+                    <li class="dropdown notifications-menu" style="display: <?php echo $permissions['reports'] == 'false' ? 'none' : '' ?>;">
                         <a id="reports" href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="glyphicon glyphicon-stats"></i> Reports
                         </a>
@@ -480,7 +509,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
                             </li>
                         </ul>
                     </li>
-<!-- 
+                    <!-- 
                     <li class="">
                         <a href="../user/home" class="dropdown-toggle">
                             <i class="glyphicon glyphicon-cog text-orange"></i>

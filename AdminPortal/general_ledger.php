@@ -134,9 +134,8 @@ endif;
         }
 
         .hidden {
-        display: none;
-    }
-
+            display: none;
+        }
     </style>
 </head>
 
@@ -295,7 +294,7 @@ endif;
                                             <tbody>
                                                 <?php
                                                 $totalSold = 0;
-                                                $buttonCounter = 0; 
+                                                $buttonCounter = 0;
                                                 while ($row = mysqli_fetch_array($query)) {
                                                     $totalSold = $row['credit'];
 
@@ -327,55 +326,51 @@ endif;
                                                         <td></td>
                                                         <td><br> <?php echo 'K ' . number_format($totalSold, 2); ?></td>
                                                     </tr>
-                                                <tr>
-        <td colspan="9">
-            <table class="details-table">
-                <thead>
-                    <tr>
-                        <td>
-                            <button class="toggle-details-button btn btn-success" data-target="<?php echo $dataTarget; ?>">View Details</button>
-                        </td>
-                    </tr>
-                </thead>
-                <tbody class="<?php echo $dataTarget; ?> hidden">
-                    <tr>
-                        <td style="color:green; font-weight:bold;">Revenue</td>
-                        <td style="color:green; font-weight:bold;">Debit</td>
-                        <td style="color:green; font-weight:bold;">Credit</td>
-                    </tr>
-                    <?php
-                    $salesQuery = mysqli_query($con, "SELECT * FROM sales WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
-                    while ($salesRow = mysqli_fetch_array($salesQuery)) {
-                        ?>
-                        <tr>
-                            <td><?php echo 'Cash Sales' ?></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-left: 87rem !important;"><?php echo 'K ' . number_format($salesRow['amount_due'], 2); ?></td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                    <tr>
-                        <td style="color:crimson; font-weight:bold;">Expenses</td>
-                    </tr>
-                    <?php
-                    $expensesQuery = mysqli_query($con, "SELECT * FROM expenses_tb WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
-                    while ($expensesRow = mysqli_fetch_array($expensesQuery)) {
-                        ?>
-                        <tr>
-                            <td><?php echo $expensesRow['category']; ?></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-left: 90rem !important;"><?php echo 'K ' . number_format($expensesRow['amount'], 2); ?></td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </td>
-    </tr
+                                                    <tr>
+                                                        <td colspan="9">
+                                                            <table>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <button class="toggle-details-button btn btn-success" data-target="<?php echo $dataTarget; ?>">View Details</button>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="<?php echo $dataTarget; ?> hidden">
+                                                                    <tr>
+                                                                        <td style="color:green; font-weight:bold;">Revenue</td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $salesQuery = mysqli_query($con, "SELECT * FROM sales WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
+                                                                    while ($salesRow = mysqli_fetch_array($salesQuery)) {
+                                                                    ?>
+                                                                        <tr>
+                                                                            <td><?php echo 'Cash Sales' ?></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="padding-left: 90rem !important;"><?php echo 'K ' . number_format($salesRow['amount_due'], 2); ?></td>
+                                                                        </tr>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td style="color:crimson; font-weight:bold;">Expenses</td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $expensesQuery = mysqli_query($con, "SELECT * FROM expenses_tb WHERE pay_acc_id = {$row['reference']}") or die(mysqli_error($con));
+                                                                    while ($expensesRow = mysqli_fetch_array($expensesQuery)) {
+                                                                    ?>
+                                                                        <tr>
+                                                                            <td><?php echo $expensesRow['category']; ?></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="padding-left: 90rem !important;"><?php echo 'K ' . number_format($expensesRow['amount'], 2); ?></td>
+                                                                        </tr>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
 
                                                 <?php
                                                 }
@@ -533,24 +528,24 @@ endif;
     </script>
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const toggleButtons = document.querySelectorAll('.toggle-details-button');
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleButtons = document.querySelectorAll('.toggle-details-button');
 
-        toggleButtons.forEach(toggleButton => {
-            toggleButton.addEventListener('click', () => {
-                const targetId = toggleButton.getAttribute('data-target');
-                const detailsContainer = document.querySelector(`.${targetId}`);
+            toggleButtons.forEach(toggleButton => {
+                toggleButton.addEventListener('click', () => {
+                    const targetId = toggleButton.getAttribute('data-target');
+                    const detailsContainer = document.querySelector(`.${targetId}`);
 
-                if (detailsContainer.classList.contains('hidden')) {
-                    detailsContainer.classList.remove('hidden');
-                } else {
-                    detailsContainer.classList.add('hidden');
-                }
+                    if (detailsContainer.classList.contains('hidden')) {
+                        detailsContainer.classList.remove('hidden');
+                    } else {
+                        detailsContainer.classList.add('hidden');
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 
 
 

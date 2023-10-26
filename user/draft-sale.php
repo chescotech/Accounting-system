@@ -7,24 +7,25 @@ endif;
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Product | <?php include('../dist/includes/title.php'); ?></title>
-        <!-- Tell the browser to be responsive to screen width -->
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.5 -->
-        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css">
-        <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
-        <!-- AdminLTE Skins. Choose a skin from the css/skins
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Product | <?php include('../dist/includes/title.php'); ?></title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
                  folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
-        <style>
-        </style>
-    </head>
-    <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+    <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" integrity="sha512-IJ+BZHGlT4K43sqBGUzJ90pcxfkREDVZPZxeexRigVL8rzdw/gyJIflDahMdNzBww4k0WxpyaWpC2PLQUWmMUQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+    </style>
+</head>
+<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
 
     <body class="hold-transition skin-<?php echo $_SESSION['skin']; ?> layout-top-nav">
         <div class="wrapper">
@@ -165,59 +166,59 @@ endif;
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-lg-3" for="price">Quantity Sold</label>
-                                <div class="col-lg-9">
-                                    <input type="number" class="form-control" id="price" name="quantity" placeholder="Quantity Sold" required>
-                                </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-3" for="price">Quantity Sold</label>
+                            <div class="col-lg-9">
+                                <input type="number" class="form-control" id="price" name="quantity" placeholder="Quantity Sold" required>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-lg-3" for="price">Price Per Item</label>
-                                <div class="col-lg-9">
-                                    <input type="number" class="form-control" id="price" name="price" placeholder="Price Sold Per Item" required>
-                                </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-3" for="price">Price Per Item</label>
+                            <div class="col-lg-9">
+                                <input type="number" class="form-control" id="price" name="price" placeholder="Price Sold Per Item" required>
                             </div>
+                        </div>
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                    </form>
                 </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                </form>
             </div>
-            <!--end of modal-dialog-->
         </div>
-        <!--end of modal-->
-        <!-- jQuery 2.1.4 -->
-        <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
-        <!-- Bootstrap 3.3.5 -->
-        <script src="../bootstrap/js/bootstrap.min.js"></script>
-        <!-- SlimScroll -->
-        <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-        <!-- FastClick -->
-        <script src="../plugins/fastclick/fastclick.min.js"></script>
-        <!-- AdminLTE App -->
-        <script src="../dist/js/app.min.js"></script>
-        <!-- AdminLTE for demo purposes -->
-        <script src="../dist/js/demo.js"></script>
-        <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
+        <!--end of modal-dialog-->
+    </div>
+    <!--end of modal-->
+    <!-- jQuery 2.1.4 -->
+    <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="../plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="../dist/js/demo.js"></script>
+    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
 
-        <script>
-            $(function () {
-                $("#example1").DataTable();
-                $('#example2').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": false,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false
-                });
+    <script>
+        $(function() {
+            $("#example1").DataTable();
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false
             });
-        </script>
-    </body>
+        });
+    </script>
+</body>
 
 </html>
