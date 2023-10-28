@@ -47,20 +47,19 @@ if ($num_rows == 0) {
 
     $id = $_SESSION['id'];
 
-    mysqli_query($con, "INSERT INTO sales(user_id,discount,amount_due,total,date_added,branch_id,order_no,customer_id,invoice_no) 
-	VALUES('$id','$discount','$amount_due','$total','$date','$branch','$orderNumber','$cust_id','$orderNumber')") or die(mysqli_error($con));
+    mysqli_query($con, "INSERT INTO sales(user_id,discount,amount_due,total,date_added,branch_id,order_no,customer_id,invoice_no,modeofpayment) 
+	VALUES('$id','$discount','$amount_due','$total','$date','$branch','$orderNumber','$cust_id','$orderNumber','Cash')") or die(mysqli_error($con));
 
     $sales_id = mysqli_insert_id($con);
     $_SESSION['sid'] = $sales_id;
-    while ($row = mysqli_fetch_array($query)) {
-        $pid = $row['prod_id'];
-        $qty = $row['qty'];
-        $price = $row['price'];
-        $discount_type = $row['discount_type'];
-        $description = $row['description'];
 
-        // mysqli_query($con, "INSERT INTO sales_details(prod_id,qty,price,sales_id,order_no, user_id,discount, discount_type,description) 
-        //         VALUES('$pid','$qty','$price','$sales_id','$orderNumber','$id','$discount','$discount_type','$description')") or die(mysqli_error($con));
+    $query2 = mysqli_query($con, "SELECT * FROM draft_temp_trans WHERE order_no='$orderNumber' ") or die(mysqli_error($con));
+    while ($row2 = mysqli_fetch_array($query2)) {
+        $pid = $row2['prod_id'];
+        $qty = $row2['qty'];
+        $price = $row2['price'];
+        $discount_type = $row2['discount_type'];
+        $description = $orderNumber;
 
         $dateis = date('Y-m-d');
         $openClose = mysqli_query($con, "SELECT * FROM open_close_tb WHERE prod_id='$pid' ") or die(mysqli_error($con));
@@ -74,7 +73,7 @@ if ($num_rows == 0) {
             $dateis = date('Y-m-d');
 
             mysqli_query($con, "INSERT INTO sales_details(prod_id,qty,price,sales_id,order_no,user_id,discount,discount_type,description)
-                VALUES('$pid','$qty','$price','$sales_id','$orderNumber','$id','$discount','$discount_type','$description')") or die(mysqli_error($con));
+                VALUES('$pid','$qty','$price','$sales_id','$orderNumber','$id','$discount','$discount_type','invoice no. $description')") or die(mysqli_error($con));
             
                 mysqli_query($con, "UPDATE product SET prod_qty=prod_qty-'$qty' where prod_id='$pid' and branch_id='$branch'") or die(mysqli_error($con));
 
@@ -92,7 +91,7 @@ if ($num_rows == 0) {
 	VALUES('$pid','$stockOpenBalance','$dateis')") or die(mysqli_error($con));
 
             mysqli_query($con, "INSERT INTO sales_details(prod_id,qty,price,sales_id,order_no, user_id,discount, discount_type,description)
-            VALUES('$pid','$qty','$price','$sales_id','$orderNumber','$id','$discount','$discount_type','$description')") or die(mysqli_error($con));
+            VALUES('$pid','$qty','$price','$sales_id','$orderNumber','$id','$discount','$discount_type','invoice no. $description')") or die(mysqli_error($con));
 
 
             mysqli_query($con, "UPDATE product SET prod_qty=prod_qty-'$qty' where prod_id='$pid' and branch_id='$branch'") or die(mysqli_error($con));

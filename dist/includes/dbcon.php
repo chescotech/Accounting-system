@@ -1,7 +1,7 @@
 <?php
  //$con = mysqli_connect("localhost","root","","chescote_accounting_db");
  
-  $con = mysqli_connect("localhost","root","","chescote_moringa_db");
+  $con = mysqli_connect("localhost","root","","moringa_db_");
   
 // Check connection
 if (mysqli_connect_errno())

@@ -43,7 +43,7 @@ endif;
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        <a class="btn btn-lg btn-warning" href="home.php">Back</a>
+                        <a class="btn btn-lg btn-warning" href="javascript:void(0)" onclick="window.history.back()">Back</a>
                         <a class="btn btn-lg btn-primary" href="quotation.php" style="color:#fff;" class="small-box-footer">New Quotation <i class="glyphicon glyphicon-plus text-blue"></i></a>
                     </h1>
                     <ol class="breadcrumb">
@@ -102,9 +102,9 @@ endif;
                                                         <a class="btn btn-success" style="color:black;" onclick="return confirm('Are you sure you want to convert quotation <?php echo $row['quote_id']; ?> to an invoice')" href="convert_to_invoice.php?quote_id=<?php echo $row['quote_id']; ?>&cust_id=<?php echo $row['customer']; ?>" style="color: #003eff "><b>Convert to Invoice</b></i></a>
                                                     </td>
 
-                                                    <td>                                                   
+                                                    <!-- <td>                                                   
                                                         <a class="btn btn-success" style="color:black;" onclick="return confirm('Are you sure you want to convert quotation <?php echo $row['quote_id']; ?> to a receipt')" href="quotation-reprint-new.php?quote_id=<?php echo $row['quote_id']; ?>" style="color: #003eff "><b>Convert to Receipt</b></i></a>
-                                                    </td>
+                                                    </td> -->
 
                                                     
                                                   

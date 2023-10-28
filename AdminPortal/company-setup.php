@@ -41,7 +41,7 @@
                 <div class="container">
                     <section class="content-header">
                         <h1>
-                            <a class="btn btn-lg btn-warning" href="home.php">Back</a>
+                          <a class="btn btn-lg btn-warning" href="javascript:void(0)" onclick="window.history.back()">Back</a>
                         </h1>
                         <ol class="breadcrumb">
                             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>

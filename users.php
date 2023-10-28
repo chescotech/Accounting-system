@@ -32,7 +32,7 @@ endif;
                 <div class="container">
                     <section class="content-header">
                         <h1>
-                            <a class="btn btn-lg btn-warning" href="home.php">Back</a>
+                          <a class="btn btn-lg btn-warning" href="javascript:void(0)" onclick="window.history.back()">Back</a>
                             <a class="btn btn-lg btn-primary" href="#add" data-target="#add" data-toggle="modal" style="color:#fff;" class="small-box-footer">Add New User <i class="glyphicon glyphicon-plus text-blue"></i></a>
                         </h1>
                         <ol class="breadcrumb">
