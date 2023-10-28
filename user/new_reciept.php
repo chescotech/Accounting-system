@@ -296,8 +296,8 @@ function AmountInWords($amount)
                 $amountLessVat = ($vatFinalTotal / 1.16);
                 $vatValue = $vatFinalTotal - $amountLessVat;
 
-                $subTotal += ($subTotal_ - $discount) / 1.16;
                 $totalVatAmountonsider = $subTotal_ - ($subTotal_ - $discount) / 1.16;
+                $subTotal_ += ($subTotal_ - $discount) / 1.16;
                 $totalExlVAT = $vatFinalTotal - $vatValue;
                 ?>
             </tbody>
@@ -317,7 +317,7 @@ function AmountInWords($amount)
                     <div>Total Exl VAT</div>
                 </td>
                 <td class="bold">
-                    <div>ZMK <?php echo number_format($subTotal, 2); ?></div>
+                    <div>ZMK <?php echo number_format($subTotal_, 2); ?></div>
                 </td>
             </tr>
 
@@ -372,7 +372,7 @@ function AmountInWords($amount)
                     <div>Total</div>
                 </td>
                 <td class="bottomBox bold">
-                    <div>ZMK <?php echo number_format(($subTotal - $discount) + $totalVatAmountonsider, 2); ?></div>
+                    <div>ZMK <?php echo number_format(($subTotal_ - $discount) + $totalVatAmountonsider, 2); ?></div>
                 </td>
             </tr>
 
