@@ -14,6 +14,17 @@ $branch = $_SESSION['branch'];
 $description = $_POST['description'];
 $today = date("Y-m-d");
 
+
+// $bank_id = $_POST['selected_bank'];
+// $bank_acc = $_POST['selected_account'];
+// $payacc = $_POST['payment_account'];
+// $price = $_POST['total'];
+
+
+// $bankquery = mysqli_query($con, "SELECT * FROM bank WHERE id='$bank_id'") or die(mysqli_error($con));
+// $brow = mysqli_fetch_array($bankquery);
+// $bank_name = $brow['bank_name'];
+
 // update the inventory draft sales record ... 
 
  $query2=mysqli_query($con,"select * from customer WHERE cust_first='$customer_name' ")or die(mysqli_error($con));
@@ -51,7 +62,13 @@ if (mysqli_num_rows($checker) > 0) {
         
     }
 
-   echo "<script type='text/javascript'>alert(' Draft Record Saved Successfully !!..');</script>";
+    // mysqli_query($con, "INSERT INTO contra_transactions (credit, transaction_type, description, transaction_id, bank_id, bank_name, bank_account_name, account_name) "
+    // . "VALUES ('$price', 'Invoice', 'Invoice. $orderNumber', '$orderNumber', '$bank_id', '$bank_name', '$bank_acc', '$payacc')") or die(mysqli_error($con));
+
+
+    // mysqli_query($con, "UPDATE bank SET credit = credit + $price, total = total + $price WHERE id = $bank_id") or die(mysqli_error($con));
+
+    echo "<script type='text/javascript'>alert(' Draft Record Saved Successfully !!..');</script>";
     echo "<script>document.location='draft-sale'</script>";
 
 ?>

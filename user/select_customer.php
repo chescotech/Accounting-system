@@ -4,7 +4,7 @@ if (empty($_SESSION['id'])) :
   header('Location:../index.php');
 endif;
 
-error_reporting(0)
+error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,13 +53,12 @@ error_reporting(0)
 
     ?>
 
-    <!-- Full Width Column -->
     <div class="content-wrapper">
       <div class="container">
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            <a class="btn btn-lg btn-warning" href="Javascript:history.back()">Back</a>
+            <a class="btn btn-lg btn-warning" href="javascript:void(0)" onclick="window.history.back()">Back</a>
             <a class="btn btn-lg btn-primary" href="select_customer_credit.php" style="color:#fff;" class="small-box-footer">New Invoice <i class="glyphicon glyphicon-plus text-blue"></i></a>
           </h1>
           <ol class="breadcrumb">
@@ -374,11 +373,9 @@ error_reporting(0)
       }
     }
 
-
     window.onload = function() {
       updateButtonVisibility();
     };
-
 
     const table_head_checkbox = document.getElementById('table_head_checkbox');
 
@@ -396,6 +393,24 @@ error_reporting(0)
   </script>
 
   <?php include './modals.php' ?>
+
+  <script>
+    document.querySelector('#selected_bank').addEventListener('change', function() {
+      var selectedBankId = this.value;
+      var accountSelect = document.querySelector('#selected_account');
+      accountSelect.innerHTML = '<option value="">Loading...</option>';
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '../user/fetch_accounts.php', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          accountSelect.innerHTML = xhr.responseText;
+        }
+      };
+      xhr.send('bank_id=' + selectedBankId);
+    });
+  </script>
+
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <?php session_start();
-
+error_reporting(0);
 if (isset($_POST['selected_cust_id'])) {
     $_SESSION['selected_cust_id'] = $_POST['selected_cust_id'];
 }
@@ -363,11 +363,11 @@ $DAO = new DAO();
                             <div class="row">
                                 <div class="col-md-12">
 
-                                <div class="form-group">
+                                    <div class="form-group">
                                         <label for="date">Description</label>
-                                        <textarea type="text" style="height: 8rem;"  class="form-control" id="description" name="description" placeholder="description"  tabindex="5" > </textarea>
+                                        <textarea type="text" style="height: 8rem;" class="form-control" id="description" name="description" placeholder="description" tabindex="5"> </textarea>
                                     </div>
-                
+
                                     <div class="form-group">
                                         <label for="date">Total</label>
 
@@ -389,7 +389,7 @@ $DAO = new DAO();
 
                                         <input type="text" style="text-align:right" class="form-control" id="amount_due" name="amount_due" placeholder="Amount Due" value="<?php echo number_format($grand, 2); ?>" readonly>
 
-                                    </div>
+                                    </div>                                    
 
 
                                     <a style=" color: blue" href="cust_new.php?type=credit" target="blank_"><b>Add New
@@ -413,6 +413,22 @@ $DAO = new DAO();
                             </button>
 
                         </form>
+                        <script>
+                            document.querySelector('#selected_bank').addEventListener('change', function() {
+                                var selectedBankId = this.value;
+                                var accountSelect = document.querySelector('#selected_account');
+                                accountSelect.innerHTML = '<option value="">Loading...</option>';
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('POST', 'fetch_accounts.php', true);
+                                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                xhr.onreadystatechange = function() {
+                                    if (xhr.readyState === 4 && xhr.status === 200) {
+                                        accountSelect.innerHTML = xhr.responseText;
+                                    }
+                                };
+                                xhr.send('bank_id=' + selectedBankId);
+                            });
+                        </script>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div><!-- /.col (right) -->

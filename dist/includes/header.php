@@ -34,7 +34,7 @@ while ($row1 = mysqli_fetch_array($query3)) {
 }
 ?>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <?php
 $groupID = $_SESSION['group'];
@@ -44,9 +44,7 @@ $permissions = mysqli_fetch_assoc($userGroup);
 
 <style>
     .navbar-brand {
-        margin: 1rem;
         background-color: #3c8d !important;
-        border-radius: 5%;
         color: black !important;
         font-size: smaller;
     }
@@ -56,14 +54,12 @@ $permissions = mysqli_fetch_assoc($userGroup);
         background: rgba(0, 0, 0, 0.8) !important;
         /* background: rgb(255,255,120,0.9) !important; */
         color: white;
-        border-bottom: 6px solid #3c8d;
-        border-top: 6px solid #3c8d;
-
+        border-bottom: 3px solid #3c8d;
+        border-top: 3px solid #3c8d;
     }
 
     .main-header .navbar li {
         color: white;
-        margin: 0.5rem;
     }
 
     .main-header .navbar .nav>li>a {
@@ -107,7 +103,6 @@ $permissions = mysqli_fetch_assoc($userGroup);
 </style>
 
 
-
 <header class="main-header">
     <nav class="navbar navbar-static-top">
         <div class="container-fluid">
@@ -134,6 +129,13 @@ $permissions = mysqli_fetch_assoc($userGroup);
                                     <li>
                                         <a href="../AdminPortal/company-setup">
                                             <i class="glyphicon glyphicon-user text-green"> Company Setup</i>
+                                        </a>
+                                    </li>
+
+                                    
+                                    <li>
+                                        <a href="../AdminPortal/sales_pay_setup">
+                                            <i class="glyphicon glyphicon-user text-green"> Sales Pay Setup</i>
                                         </a>
                                     </li>
 
@@ -341,8 +343,8 @@ $permissions = mysqli_fetch_assoc($userGroup);
                     </li>
 
                     <li class="dropdown notifications-user" style="display: <?php echo $permissions['cash_flow'] == 'false' ? 'none' : '' ?>;">
-                        <a href="../AdminPortal/cash_flow.php">
-                            <i class="glyphicon glyphicon-user text-green"></i> Cash Flow
+                        <a href="../AdminPortal/bank_module">
+                            <i class="glyphicon glyphicon-user text-green"></i> Bank Module
                         </a>
                         <ul class="dropdown-menu">
 

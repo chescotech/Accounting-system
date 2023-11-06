@@ -22,6 +22,21 @@ $invoice_mode = $_POST['invoice_mode'];
 $currency = $_POST['currency'];
 
 
+$query = mysqli_query($con, "SELECT * from primary_bank") or die(mysqli_error($con));
+while ($row = mysqli_fetch_array($query)) {
+    // $bank_id = $row['bank_id'];
+    // $bank_acc = $row['account_name'];
+    $payacc = $row['business_account_name'];
+
+}
+
+
+// $bankquery = mysqli_query($con, "SELECT * FROM bank WHERE id='$bank_id'") or die(mysqli_error($con));
+// $brow = mysqli_fetch_array($bankquery);
+// $bank_name = $brow['bank_name'];
+
+
+
 if ($tendered >= $amount_due) {
 
     if ($cust_id == "none") {
@@ -36,6 +51,12 @@ if ($tendered >= $amount_due) {
     $invoiceNo = $rowss['id'];
 
     $id = $_SESSION['id'];
+
+    // mysqli_query($con, "INSERT INTO contra_transactions (credit, transaction_type, description, transaction_id, bank_id, bank_name, bank_account_name, account_name) "
+    // . "VALUES ('$total', 'Sales', 'Sales. $orderNumber', '$orderNumber', '$bank_id', '$bank_name', '$bank_acc', '$payacc')") or die(mysqli_error($con));
+
+
+    // mysqli_query($con, "UPDATE bank SET credit = credit + $total, total = total + $total WHERE id = $bank_id") or die(mysqli_error($con));
 
     mysqli_query($con, "INSERT INTO sales(user_id,discount,amount_due,total,date_added,modeofpayment,branch_id,order_no,customer_id,invoice_no) 
 	VALUES('$id','$discount','$amount_due','$total','$date','$payment_mode_id','$branch','$orderNumber','$cust_id','$invoiceNo')") or die(mysqli_error($con));

@@ -16,10 +16,18 @@ $cust_name = $_POST['customer_name'];
 $payment_mode_id = $_POST['payment_mode_id'];
 $pay_acc_id = $_POST['pa'];
 
-
 $pay = mysqli_query($con, "SELECT * FROM payment_account WHERE id = '$pay_acc_id'") or die(mysqli_error($con));
 $low = mysqli_fetch_assoc($pay);
 $balance =$low['balance']; 
+
+$bank_id = $_POST['selected_bank'];
+$bank_acc = $_POST['selected_account'];
+$payacc = $_POST['pa'];
+$price = $_POST['total'];
+
+$bankquery = mysqli_query($con, "SELECT * FROM bank WHERE id='$bank_id'") or die(mysqli_error($con));
+$brow = mysqli_fetch_array($bankquery);
+$bank_name = $brow['bank_name'];
 
 
 if ($amount_due >= $amount_due) {
@@ -32,6 +40,12 @@ if ($amount_due >= $amount_due) {
         $description = $row['description'];
         $discount = $row['amount'];
         $discount_type = $row['discount_type'];
+
+        
+        mysqli_query($con, "INSERT INTO contra_transactions (credit, transaction_type, description, transaction_id, bank_id, bank_name, bank_account_name, account_name) "
+    . "VALUES ('$price', 'Invoice', 'Invoice. $orderNumber', '$orderNumber', '$bank_id', '$bank_name', '$bank_acc', '$payacc')") or die(mysqli_error($con));
+
+    mysqli_query($con, "UPDATE bank SET credit = credit + $price, total = total + $price WHERE id = $bank_id") or die(mysqli_error($con));
 
         mysqli_query($con, "INSERT INTO sales(customer_id,user_id,discount,amount_due,total,date_added,modeofpayment,branch_id,order_no,pay_acc_id,balance) 
         VALUES('$cid','$id','$discount','$price','$new_total','$date','$payment_mode_id','$branch','$orderNumber', '$pay_acc_id','$balance')")or die(mysqli_error($con));
@@ -85,6 +99,3 @@ if ($amount_due >= $amount_due) {
         echo "<script type='text/javascript'>alert(' Error !!, Row not found.');</script>";
         echo "<script>document.location='select_customer.php'</script>";
     }
-
-
-?>

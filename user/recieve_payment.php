@@ -1,4 +1,5 @@
 <?php session_start();
+error_reporting(0);
 if (empty($_SESSION['id'])) :
     header('Location:../index.php');
 endif;
@@ -44,7 +45,7 @@ endif;
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        <a class="btn btn-lg btn-warning" href="sold-items.php">Back</a>
+                        <a class="btn btn-lg btn-warning" href="javascript:(void);" onclick="window.history.back()">Back</a>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>

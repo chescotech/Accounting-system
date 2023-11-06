@@ -94,7 +94,7 @@ $DAO = new DAO();
                     <div class="row">
                         <div class="col-md-8">
                             <div class="box box-primary">
-                                <div class="box-body">                                   
+                                <div class="box-body">
                                     <form method="post" action="credit_temp_add.php">
                                         <div class="row" style="min-height:400px">
                                             <div class="col-md-6">
@@ -149,7 +149,7 @@ $DAO = new DAO();
                                                 </div>
                                     </form>
 
-                                    
+
 
 
                                     <?php
@@ -338,23 +338,79 @@ $DAO = new DAO();
 
                     <div class="box-body">
                         <!-- Date range -->
-                        <form method="post" name="autoSumForm" action="credit_complete.php" onsubmit="return confirm('Are you sure you want to complete this action?');">
+                        <form method="post" name="autoSumForm" action="credit_complete.php" onsubmit="return confirm('Are you sure you want to complete this action?);">
                             <div class="form-group com">
                                 <label>Grand Total</label>
                                 <input class="form-control center" style="text-align: center;" type="text" value="<?php echo number_format($grandTotal, 2); ?>" readonly>
                             </div>
                             <div class="form-group com">
+                                <label>Bank Name</label>
+                                <select class="form-control" name="selected_bank" id="selected_bank">
+                                    <option value="">--Select Bank--</option>
+                                    <?php
+                                    $query = mysqli_query($con, "SELECT id, bank_name FROM bank ORDER by bank_name") or die(mysqli_error($con));
+                                    while ($row = mysqli_fetch_assoc($query)) {
+                                        $bank_id = $row['id'];
+                                        $expName = $row['bank_name'];
+                                        echo "<option value='$bank_id'>$expName</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <input type="hidden" name="selected_bank_name" value="">
+
+                            <div class="form-group com">
+                                <label>Bank Account Name</label>
+                                <select class="form-control" name="selected_account" id="selected_account">
+                                    <option value="">--Select Bank Account--</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group com">
+                                <label>Business Account</label>
+                                <select class="form-control" name="payment_account">
+                                    <option value="">--Select payment method--</option>
+                                    <?php
+                                    $query = mysqli_query($con, "SELECT * FROM payment_account ORDER by name") or die(mysqli_error($con));
+                                    while ($row = mysqli_fetch_assoc($query)) {
+                                        $expName = $row['name'];
+                                        echo "<option value='$expName'>$expName</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="form-group com">
                                 <label>Message displayed on credit Note</label>
-                                <textarea name="mc" form-control required></textarea>
+                                <textarea name="mc" class="form-control" required></textarea>
                             </div>
                             <div class="form-group com">
                                 <label>Message on Statement</label>
-                                <textarea name="ms" form-control required> </textarea>
+                                <textarea name="ms" class="form-control" required></textarea>
                             </div>
                             <button class="btn btn-lg btn-block btn-primary" id="daterange-btn" name="complete" type="submit" tabindex="7">
                                 Complete
                             </button>
                         </form>
+
+                        <script>
+                            document.querySelector('#selected_bank').addEventListener('change', function() {
+                                var selectedBankId = this.value;
+                                var accountSelect = document.querySelector('#selected_account');
+                                accountSelect.innerHTML = '<option value="">Loading...</option>';
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('POST', 'fetch_accounts.php', true);
+                                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                xhr.onreadystatechange = function() {
+                                    if (xhr.readyState === 4 && xhr.status === 200) {
+                                        accountSelect.innerHTML = xhr.responseText;
+                                    }
+                                };
+                                xhr.send('bank_id=' + selectedBankId);
+                            });
+                        </script>
+
                     </div>
 
                 </div>

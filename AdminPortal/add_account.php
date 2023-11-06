@@ -3,6 +3,7 @@ include('../dist/includes/dbcon.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = $_POST["name"];
+   
     $description = $_POST["description"];
     $detailType = $_POST["detail_type"]; 
     $accountType = $_POST["account_type"]; 

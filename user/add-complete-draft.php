@@ -6,17 +6,24 @@ include('../dist/includes/dbcon.php');
 
 $discount = $_POST['discount'];
 $amount_due = $_POST['amount_due'];
-
 $date = date("Y-m-d H:i:s");
 $cid = $_REQUEST['cid'];
 $branch = $_SESSION['branch'];
-
 $total = $amount_due - $discount;
 $new_total = $_POST['new_total'];
-
 $cid = $_REQUEST['cid'];
-
 $orderNumber = $_POST['orderno']; //(rand(50, 5000));
+
+
+$bank_id = $_POST['selected_bank'];
+$bank_acc = $_POST['selected_account'];
+$payacc = $_POST['payment_account'];
+$price = $_POST['total'];
+
+$bankquery = mysqli_query($con, "SELECT * FROM bank WHERE id='$bank_id'") or die(mysqli_error($con));
+$brow = mysqli_fetch_array($bankquery);
+$bank_name = $brow['bank_name'];
+
 
 $tendered = $_POST['tendered'];
 $change = $_POST['change'];
@@ -26,6 +33,11 @@ $payment_mode_id = $_POST['payment_mode_id'];
 if ($tendered >= $amount_due) {
     mysqli_query($con, "INSERT INTO sales(customer_id,user_id,discount,amount_due,total,date_added,modeofpayment,cash_tendered,cash_change,branch_id,order_no,invoice_no) 
 	VALUES('$cust_name','$id','$discount','$amount_due','$new_total','$date','$payment_mode_id','$tendered','$change','$branch','$orderNumber','$orderNumber')")or die(mysqli_error($con));
+
+        mysqli_query($con, "INSERT INTO contra_transactions (credit, transaction_type, description, transaction_id, bank_id, bank_name, bank_account_name, account_name) "
+    . "VALUES ('$price', 'Invoice', 'Invoice. $orderNumber', '$orderNumber', '$bank_id', '$bank_name', '$bank_acc', '$payacc')") or die(mysqli_error($con));
+
+    mysqli_query($con, "UPDATE bank SET credit = credit + $price, total = total + $price WHERE id = $bank_id") or die(mysqli_error($con));
 
     $sales_id = mysqli_insert_id($con);
     $_SESSION['sid'] = $sales_id;
@@ -38,9 +50,7 @@ if ($tendered >= $amount_due) {
         $description = $row['description'];
 
         $discount = $row['amount'];
-        $discount_type = $row['discount_type'];
-
-        // insert the open and close balances... 
+        $discount_type = $row['discount_type'];        
         $dateis = date('Y-m-d');
         $openClose = mysqli_query($con, "SELECT * FROM open_close_tb WHERE prod_id='$pid' AND date='$dateis' ")or die(mysqli_error($con));
         if (mysqli_num_rows($openClose) > 0) {
@@ -100,3 +110,4 @@ if ($tendered >= $amount_due) {
     echo "<script>document.location='draft-sale.php.php?orderno=$orderNumber'</script>";
 }
 ?>
+

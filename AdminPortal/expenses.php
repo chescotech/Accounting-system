@@ -252,11 +252,10 @@ session_start();
                                 const clearButton = document.getElementById("clearButton");
 
                                 clearButton.addEventListener("click", function() {
-                                    form.reset(); // Reset the form fields to their initial values
-                                    hiddenInput.value = ""; // Clear the hidden input value
+                                    form.reset(); 
+                                    hiddenInput.value = ""; 
                                 });
                             </script>
-
                         </div>
                     </div>
                     <div class="body">
@@ -322,17 +321,17 @@ session_start();
 
             </div>
 
-        </div><!-- /.content-wrapper -->
+        </div>
         <?php include('../dist/includes/footer.php'); ?>
     </div>
     <script src="../plugins/select2/select2.full.min.js"></script>
-    <!-- SlimScroll -->
+    
     <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
+    
     <script src="../plugins/fastclick/fastclick.min.js"></script>
-    <!-- AdminLTE App -->
+    
     <script src="../dist/js/app.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
+   
     <script src="../dist/js/demo.js"></script>
     <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
@@ -453,7 +452,7 @@ session_start();
         });
 
         function handleFiles(files) {
-            fileList.innerHTML = ''; // Clear previous file list
+            fileList.innerHTML = ''; 
 
             for (const file of files) {
                 const fileItem = document.createElement('p');
@@ -485,7 +484,7 @@ session_start();
         </script>
     <?php endif; ?>
     <script>
-        // Reload the page after script execution
+      
         window.onload = function() {
             if (window.location.href.includes('?submitted')) {
                 location.reload();
@@ -503,9 +502,7 @@ session_start();
             paNameInput.value = selectedOption.textContent;
         });
     </script>
-
 <script> 
-// Example JavaScript code (update based on your actual requirements)
 document.querySelector('select[name="pa"]').addEventListener('change', function() {
     var selectedOption = this.options[this.selectedIndex];
     document.getElementById('selectedPaId').value = selectedOption.value;

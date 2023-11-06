@@ -10,12 +10,12 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">                
-                <ul id="selectedRowsList">         
+            <div class="modal-body">
+                <ul id="selectedRowsList">
                 </ul>
                 <!-- Form to collect deposit and submit data -->
                 <form id="invoiceForm" method="post" action="multipleinvoice.php">
-                    <!-- Hidden input fields to store selected invoice numbers and IDs -->                    
+                    <!-- Hidden input fields to store selected invoice numbers and IDs -->
                     <input type="hidden" name="selectedInvoiceNumbers" id="selectedInvoiceNumbers">
                     <input type="hidden" name="selectedIds" id="selectedIds">
                     <div class="form-group" style="display: flex;">
@@ -26,7 +26,7 @@
                                 $query = mysqli_query($con, "SELECT * FROM payment_account WHERE name IS NOT NULL AND name != '' ORDER BY name") or die(mysqli_error($con));
                                 while ($row = mysqli_fetch_assoc($query)) {
                                     $payName = $row['name'];
-                                    $pid = $row['id'];                                    
+                                    $pid = $row['id'];
                                     echo "<option value='$pid'>$payName</option>";
                                 }
                                 ?>
@@ -50,7 +50,7 @@
                     <input type="hidden" name="grandTotal" id="grandTotalInput">
                     <input type="hidden" value="<?php echo $selected_cust_id ?>" name="cid">
                 </form>
-                
+
                 <p><span type="text" name="grandTotal" id="grandTotal"></span></p>
                 <!-- Display the grand total here -->
                 <p>Total Amount for multiple rows: <span id="grandTotal"></span></p>
@@ -99,6 +99,30 @@
                     </div>
 
                     <input type="hidden" value="<?php echo $selected_cust_id ?>" name="cid">
+
+                    <div class="form-group com">
+                        <label>Bank Name</label>
+                        <select class="form-control" name="selected_bank" id="selected_bank" required>
+                            <option value="">--Select Bank--</option>
+                            <?php
+                            $query = mysqli_query($con, "SELECT id, bank_name FROM bank ORDER by bank_name") or die(mysqli_error($con));
+                            while ($row = mysqli_fetch_assoc($query)) {
+                                $bank_id = $row['id'];
+                                $expName = $row['bank_name'];
+                                echo "<option value='$bank_id'>$expName</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <input type="hidden" name="selected_bank_name" value="">
+
+                    <div class="form-group com">
+                        <label>Bank Account Name</label>
+                        <select class="form-control" name="selected_account" id="selected_account">
+                            <option value="">--Select Bank Account--</option>
+                        </select>
+                    </div>                 
 
                     <div class="form-group">
                         <label for="customerNameInput">Customer Name</label>
