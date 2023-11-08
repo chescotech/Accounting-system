@@ -332,6 +332,24 @@ endif;
                     </button>
 
                 </form>
+
+
+                <script>
+                                        document.querySelector('#selected_bank').addEventListener('change', function() {
+                                            var selectedBankId = this.value;
+                                            var accountSelect = document.querySelector('#selected_account');
+                                            accountSelect.innerHTML = '<option value="">Loading...</option>';
+                                            var xhr = new XMLHttpRequest();
+                                            xhr.open('POST', '../user/fetch_accounts.php', true);
+                                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                            xhr.onreadystatechange = function() {
+                                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                                    accountSelect.innerHTML = xhr.responseText;
+                                                }
+                                            };
+                                            xhr.send('bank_id=' + selectedBankId);
+                                        });
+                                    </script>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
     </div><!-- /.col (right) -->

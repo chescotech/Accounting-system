@@ -74,10 +74,6 @@ error_reporting(E_ALL);
                 <div class="box-header">
                   <h3 class="box-title" style=" color: black"><b>Invoice List</b></h3>
                 </div>
-
-
-
-
                 <div style="margin: 1rem;">
 
                   <div class="form-group" style="display: flex;">
@@ -205,8 +201,6 @@ error_reporting(E_ALL);
   <script src="../bootstrap/js/bootstrap.min.js"></script>
 
   <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-
-  <script src="../plugins/fastclick/fastclick.min.js"></script>
 
   <script src="../dist/js/app.min.js"></script>
 

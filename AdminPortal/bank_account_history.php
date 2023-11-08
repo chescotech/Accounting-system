@@ -46,10 +46,11 @@ error_reporting(E_ALL);
             width: 100%;
         }
 
-        table th, td {
-        margin:1.5rem;
-        padding:1%;
-        text-align: center;
+        table th,
+        td {
+            margin: 1.5rem;
+            padding: 1%;
+            text-align: center;
         }
     </style>
 
@@ -74,6 +75,7 @@ error_reporting(E_ALL);
 <body class="hold-transition skin-<?php echo $_SESSION['skin']; ?> layout-top-nav">
     <div class="wrapper">
         <?php
+        $id = $_GET['id'];
         include('../dist/includes/header_admin.php');
         include('../dist/includes/dbcon.php');
         ?>
@@ -84,7 +86,7 @@ error_reporting(E_ALL);
                 <section class="content-header">
                     <h1>
                         <a class="btn btn-lg btn-warning" href="javascript:void(0)" onclick="window.history.back()">Back</a>
-                        <a class="btn btn-lg btn-primary" href="view_accounts.php">View Accounts</a>                
+                        <a class="btn btn-lg btn-primary" href="view_accounts.php">View Accounts</a>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -95,22 +97,22 @@ error_reporting(E_ALL);
                 <section class="content">
 
                     <div class="inline" style="display:inline; margin-top:3rem; ">
+                        <div class="form-check form-check-inline" style="display:inline; padding:2rem;line-height:6rem;">
+                            <input class="form-check-input" type="radio" name="settingOption" id="option1" value="option1">
+                            <label class="form-check-label" for="option1">Confirm</label>
+                        </div>
                         <div class="form-check form-check-inline" style="display:inline; padding:2rem; ">
                             <input class="form-check-input" type="radio" name="settingOption" id="option2" value="option2" checked>
                             <label class="form-check-label" for="option2">Finish unprocessed Transactions </label>
-                        </div>
-                        <div class="form-check form-check-inline" style="display:inline; padding:2rem;line-height:6rem;">
-                            <input class="form-check-input" type="radio" name="settingOption" id="option1" value="option1">
-                            <label class="form-check-label" for="option1">Edit/Remove Duplicates</label>
                         </div>
                     </div>
 
                     <br><br>
 
-                    <form id="option2Form" style="margin-left: auto; margin-right:auto; width:70%; border:2px solid black; padding:1rem;" class="form" style="" action="add.php" method="POST">
+                    <form id="option2Form" style="margin-left: auto; margin-right:auto; width:70%; border:2px solid black; padding:1rem;" class="form" style="" action="add_attachment_bank.php?id=<?php echo $id ?>" method="POST">
                         <div class="form-group">
                             <label for="username">Description</label>
-                            <input type="text" class="form-control" id="username" name="name" required>
+                            <input type="text" class="form-control" id="username" name="description" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Transaction type</label>
@@ -118,22 +120,20 @@ error_reporting(E_ALL);
                                 <option>--Select payment method--</option>
                                 <option>Invoice</option>
                                 <option>Payment</option>
-                                <option>Sale</option>
-                                <option>Credit Note</option>
-                                <option>Recieve payment</option>
+                                <!-- <option>Credit Note</option>                                -->
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="password">Transaction id</label>
-                            <input type="text" class="form-control" id="password" name="password" required>
+                            <input type="text" class="form-control" id="password" name="transid" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Amount</label>
-                            <input type="number" class="form-control" id="password" name="password" required>
+                            <input type="number" class="form-control" id="password" name="amount" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Payment Method </label>
-                            <select class="form-control" type="select" name="category">
+                            <select class="form-control" type="select" name="pm">
                                 <option>--Select payment method--</option>
                                 <?php
                                 $query = mysqli_query($con, "SELECT * FROM modes_of_payment_tb ORDER by name") or die(mysqli_error($con));
@@ -144,9 +144,24 @@ error_reporting(E_ALL);
                                 ?>
                             </select>
                         </div>
+
+                        <div class="form-group com">
+                            <label>Business Account</label>
+                            <select class="form-control" name="payment_account">
+                                <option value="">--Select payment method--</option>
+                                <?php
+                                $query = mysqli_query($con, "SELECT * FROM payment_account ORDER by name") or die(mysqli_error($con));
+                                while ($row = mysqli_fetch_assoc($query)) {
+                                    $expName = $row['name'];
+                                    $expId = $row['id'];
+                                    echo "<option value='$expId'>$expName</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="password">Date</label>
-                            <input type="date" class="form-control" id="password" name="password" required>
+                            <input type="date" class="form-control" id="password" name="date" required>
                         </div>
 
                         <br>
@@ -163,12 +178,18 @@ error_reporting(E_ALL);
                         <button type="submit" class="btn btn-primary" name="campus">Process</button>
 
                     </form>
+                    <?php
+                    $id = $_GET['id'];
+                    $queryz = "SELECT contra_transactions.debit AS c_debit,contra_transactions.credit AS c_credit,contra_transactions.transaction_type,contra_transactions.description AS descrip , contra_transactions.status,contra_transactions.transaction_id,contra_transactions.bank_id, contra_transactions.id AS idz, bank.* FROM bank INNER JOIN contra_transactions ON bank.id = contra_transactions.bank_id WHERE bank.id = '$id'ORDER BY contra_transactions.date DESC";
+                    $resultz = mysqli_query($con, $queryz);
+                    ?>
 
-                    <div id="option1Table" class="table" style="display: none;">                     
-                        <table id="example" border="1" style="background:white; text-align:center;">                       
+
+                    <div id="option1Table" class="table" style="display: none;">
+                        <table id="example" border="1" style="background:white; text-align:center;">
                             <thead>
                                 <tr>
-                                    <th> <input type="checkbox" name="All" value="" id="table_head_checkbox"></th>
+                                    <th><input type="checkbox" name="All" value="" id="table_head_checkbox"></th>
                                     <th>NAME</th>
                                     <th>ACCOUNT NAME</th>
                                     <th>TRANSACTION TYPE</th>
@@ -178,15 +199,11 @@ error_reporting(E_ALL);
                                     <th>DEBIT</th>
                                     <th>CREDIT</th>
                                     <th>STATUS</th>
-                                    <th> <a id="completeTransactionBtn" class="btn btn-primary" onclick="return confirm('Are you sure you want to confirm single transaction ')">Confirm Transaction</b>
-                                        <a  id="completeMultipleInvoicesBtn" class="btn btn-primary" onclick="return confirm('Are you sure you want to confirm  Multiple transaction' )">Confirm Multiple Transactions</a></th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $id = $_GET['id'];
-                                $queryz = "SELECT contra_transactions.transaction_type,contra_transactions.transaction_id,  bank.* FROM bank INNER JOIN contra_transactions ON bank.id = contra_transactions.bank_id WHERE bank_number = '$id'";
-                                $resultz = mysqli_query($con, $queryz);
                                 while ($rowz = mysqli_fetch_array($resultz)) {
                                     $Id = $rowz['id'];
                                     $name = $rowz['account_name'];
@@ -194,13 +211,14 @@ error_reporting(E_ALL);
                                     $code = $rowz['account_code'];
                                     $trans_type = $rowz['transaction_type'];
                                     $trans_id = $rowz['transaction_id'];
-                                    $description = $rowz['description'];
-                                    $debit = $rowz['debit'];
-                                    $credit = $rowz['credit'];
+                                    $description = $rowz['descrip'];
+                                    $debit = $rowz['c_debit'];
+                                    $credit = $rowz['c_credit'];
+                                    $status = $rowz['status'];
                                 ?>
 
                                     <tr>
-                                        <td><input type="checkbox" class="invoice-checkbox" name="invoice[]" value="<?php echo $row['payment_id']; ?>"></td>
+                                        <td><input type="checkbox" class="invoice-checkbox" name="invoice[]" value="<?php echo $rowz['idz']; ?>"></td>
                                         <td><?php echo $bank_name; ?></td>
                                         <td><?php echo $name; ?></td>
                                         <td><?php echo $trans_type; ?></td>
@@ -209,29 +227,67 @@ error_reporting(E_ALL);
                                         <td><?php echo $description; ?></td>
                                         <td><?php echo $debit; ?></td>
                                         <td><?php echo $credit; ?></td>
-                                         <td>
-                                         <?php if ($row['status'] = 'Complete') {
-                                                            echo "<p class='btn-danger' style='text-align:center;'> <strong> Pending </strong> </p>";
-                                                        } else {
-                                                            echo "<p class='btn-success' style='text-align:center;'> <strong> Confirmed </strong> </p>";
-                                                        }   ?>
-                                                    </td> 
-
-                                        <td style="display: none;">
-                                            <a href="update_form.php?id=<?php echo $Id; ?>" class="delete-button btn btn-success" data-id="<?php echo $Id; ?>" onclick="return confirm('Are you sure you want to update this record?')">Confirm</a>
-                                         
+                                        <td>
+                                            <?php if ($status == 'Confirmed') {
+                                                echo "<p class='btn-success' style='text-align:center; width:7rem;'> <strong> Confirmed </strong> </p>";
+                                            } else {
+                                                echo "<p class='btn-danger' style='text-align:center;'> <strong> Pending </strong> </p>";
+                                            } ?>
                                         </td>
+
+
 
                                     </tr>
 
-                                <?php
-                                }
-                                ?>
-
+                                <?php } ?>
                             </tbody>
+                            <div class="button" style="margin:2rem;">
+                                <a id="completeTransactionBtn" class="btn btn-success" style="margin-right: 0.5em;" onclick="return confirm('Are you sure you want to proceed')">Complete Selected Transactions</a>
 
+                                <!-- <a id="completeMultipleInvoicesBtn" class="btn btn-success" onclick="return confirm('Are you sure you want to proceed')">Complete Multiple</a> -->
+                            </div>
                         </table>
                     </div>
+
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script>
+                        $(document).ready(function() {
+                            $("#completeTransactionBtn").click(function() {
+                                completeTransactions();
+                            });
+
+                            $("#completeMultipleInvoicesBtn").click(function() {
+                                completeTransactions();
+                            });
+
+                            function completeTransactions() {
+                                var selectedIds = [];
+                                $(".invoice-checkbox:checked").each(function() {
+                                    selectedIds.push($(this).val());
+                                });
+
+                                if (selectedIds.length === 0) {
+                                    alert("Please select at least one transaction to complete.");
+                                    return;
+                                }
+                                $.ajax({
+                                    type: "POST",
+                                    url: "update_status.php", // Replace with the actual URL of your PHP script
+                                    data: {
+                                        selectedIds: selectedIds
+                                    },
+                                    success: function(response) {
+                                        // Handle the response from the PHP script, if needed
+                                        alert(response);
+                                        // window.history.go(-1); // Redirect to the previous page
+                                        location.reload(); // Refresh the page
+                                    }
+                                });
+                            }
+                        });
+                    </script>
+
+
                 </section>
             </div>
         </div>
@@ -274,8 +330,7 @@ error_reporting(E_ALL);
         });
     </script>
 
-
-<script>
+    <script>
         $(function() {
             $("#example1").DataTable();
             $('#example').DataTable({
@@ -289,7 +344,6 @@ error_reporting(E_ALL);
         });
 
         $(document).ready(function() {
-            // Get the checkbox in the table head
             var checkbox = $("#table_head_checkbox");
 
             checkbox.on("click", function() {
@@ -298,76 +352,6 @@ error_reporting(E_ALL);
 
                 checkboxes.prop("checked", checkbox.prop("checked"));
             });
-        });
-    </script>
-
-
-<script>
-        const checkboxes = document.querySelectorAll('.invoice-checkbox');
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener('change', function() {
-                if (this.checked) {
-                    const row = this.closest('tr');
-                    if (row) {
-                        const Id = this.value; // Assuming ID is in the first cell (index 0)
-                        const customerName = row.cells[1].textContent;
-                        const invoiceNumber = row.cells[2].textContent;
-                        const unitPrice = row.cells[3].textContent;
-                        const totalPrice = row.cells[6].textContent;
-
-                        document.getElementById('rowIdInput').value = Id;
-                        document.getElementById('customerNameInput').value = customerName;
-                        document.getElementById('invoiceNumberInput').value = invoiceNumber;
-                        // document.getElementById('unitPriceInput').value = unitPrice;
-                        document.getElementById('totalPriceInput').value = totalPrice;
-                    }
-
-                } else {
-
-                }
-            });
-        });
-    </script>
-
-    <script>
-        function updateButtonVisibility() {
-            const checkboxes = document.querySelectorAll('.invoice-checkbox');
-            const completeTransactionBtn = document.getElementById('completeTransactionBtn');
-            const completeMultipleInvoicesBtn = document.getElementById('completeMultipleInvoicesBtn');           
-            const table_head_checkbox = document.getElementById('table_head_checkbox');
-
-            const isHeaderChecked = table_head_checkbox.checked;
-
-            const checkedCheckboxes = Array.from(checkboxes).filter((checkbox) => checkbox.checked && checkbox !== table_head_checkbox);
-
-            if (isHeaderChecked) {
-
-                completeMultipleInvoicesBtn.style.display = 'block';
-            } else if (checkedCheckboxes.length === 1) {
-                completeTransactionBtn.style.display = 'block';
-                completeMultipleInvoicesBtn.style.display = 'none';             
-            } else if (checkedCheckboxes.length > 1) {
-                completeTransactionBtn.style.display = 'none';
-                completeMultipleInvoicesBtn.style.display = 'block';            
-            } else {
-                completeTransactionBtn.style.display = 'none';
-                completeMultipleInvoicesBtn.style.display = 'none';               
-            }
-        }
-        window.onload = function() {
-            updateButtonVisibility();
-        };
-        const table_head_checkbox = document.getElementById('table_head_checkbox');
-
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener('change', function() {
-
-                updateButtonVisibility();
-            });
-        });
-        table_head_checkbox.addEventListener('change', function() {
-
-            updateButtonVisibility();
         });
     </script>
 
@@ -484,6 +468,8 @@ error_reporting(E_ALL);
         }
     </script>
 
+
+
     <?php if (isset($errorMessage)) : ?>
         <script>
             alert('<?php echo $errorMessage; ?>');
@@ -493,6 +479,7 @@ error_reporting(E_ALL);
             alert('<?php echo $successMessage; ?>');
         </script>
     <?php endif; ?>
+
     <script>
         window.onload = function() {
             if (window.location.href.includes('?submitted')) {
@@ -500,7 +487,6 @@ error_reporting(E_ALL);
             }
         };
     </script>
-
 
 
 </body>

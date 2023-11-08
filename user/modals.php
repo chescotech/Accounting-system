@@ -36,6 +36,30 @@
                             <button type="button" name="" class="btn btn-success" onclick="$('#addPaymentAccountModal').modal('show');" style="margin-right: 0.5em;"> + Add </button>
                         </div>
                     </div>
+                    <div class="form-group com">
+                        <label>Bank Name</label>
+                        <select class="form-control" name="selected_bank" id="selected_bank" required>
+                            <option value="">--Select Bank--</option>
+                            <?php
+                            $query = mysqli_query($con, "SELECT id, bank_name FROM bank ORDER by bank_name") or die(mysqli_error($con));
+                            while ($row = mysqli_fetch_assoc($query)) {
+                                $bank_id = $row['id'];
+                                $expName = $row['bank_name'];
+                                echo "<option value='$bank_id'>$expName</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <input type="hidden" name="selected_bank_name" value="">
+
+                    <div class="form-group com">
+                        <label>Bank Account Name</label>
+                        <select class="form-control" name="selected_account" id="selected_account">
+                            <option value="">--Select Bank Account--</option>
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label for="modeOfPayment">Mode of Payment</label>
                         <select class="form-control select2" name="payment_mode_id" tabindex="1">
@@ -62,8 +86,8 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="complete" tabindex="-1" aria-labelledby="complete" aria-hidden="true">
+
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -122,7 +146,8 @@
                         <select class="form-control" name="selected_account" id="selected_account">
                             <option value="">--Select Bank Account--</option>
                         </select>
-                    </div>                 
+                    </div>
+
 
                     <div class="form-group">
                         <label for="customerNameInput">Customer Name</label>
@@ -441,3 +466,4 @@
 
         </div>
     </div>
+</div>

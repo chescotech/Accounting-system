@@ -142,7 +142,7 @@ ini_set('display_errors', 1);
                                                 
                                             </td>       -->
                                             <td>
-                                                <a href="bank_account_history.php?id=<?php echo $rowv['bank_number'];  ?>" class="btn btn-success">Reconcile</a>                                                
+                                                <a href="bank_account_history.php?id=<?php echo $rowv['id'];  ?>" class="btn btn-success">Reconcile</a>                                                
                                                 
                                             </td>                            
                                             <td>

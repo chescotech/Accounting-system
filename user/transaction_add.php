@@ -1,25 +1,17 @@
 <?php
-
 session_start();
 $id = $_SESSION['id'];
 $branch = $_SESSION['branch'];
 
 include('../dist/includes/dbcon.php');
-
 include('Classes/DAO.php');
-
 $DAO = new DAO();
-
 $cid = $_POST['cid'];
-
 $barcode = $_POST['barcode'];
 $selected_cust_id = $_SESSION['selected_cust_id'];
 
-// check if barcode has been used or not.. 
-
 if ($barcode != "") {
     $qty = "1";
-    // check if the barcode is found or not... 
 
     $checkBarcodeDetails = mysqli_query($con, "select prod_id,prod_qty,prod_name from product WHERE barcode='$barcode'")or die(mysqli_error($con));
     $countRows = mysqli_num_rows($checkBarcodeDetails);
@@ -67,7 +59,6 @@ if ($barcode != "") {
         echo "<script>document.location='cash_transaction.php?cid=$cid'</script>";
     }
 } else {
- 
     $user_id = $_SESSION['id'];
     $qty = $_POST['qty'];
     $name = $_POST['prod_name'];

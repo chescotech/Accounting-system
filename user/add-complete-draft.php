@@ -31,13 +31,13 @@ $cust_name = $_POST['cust_name'];
 $payment_mode_id = $_POST['payment_mode_id'];
 
 if ($tendered >= $amount_due) {
-    mysqli_query($con, "INSERT INTO sales(customer_id,user_id,discount,amount_due,total,date_added,modeofpayment,cash_tendered,cash_change,branch_id,order_no,invoice_no) 
-	VALUES('$cust_name','$id','$discount','$amount_due','$new_total','$date','$payment_mode_id','$tendered','$change','$branch','$orderNumber','$orderNumber')")or die(mysqli_error($con));
+    mysqli_query($con, "INSERT INTO sales(customer_id,user_id,discount,amount_due,total,date_added,modeofpayment,balance,branch_id,order_no,invoice_no) 
+	VALUES('$cust_name','$id','$discount','$amount_due','$new_total','$date','$payment_mode_id','$change','$branch','$orderNumber','$orderNumber')")or die(mysqli_error($con));
 
-        mysqli_query($con, "INSERT INTO contra_transactions (credit, transaction_type, description, transaction_id, bank_id, bank_name, bank_account_name, account_name) "
+        mysqli_query($con, "INSERT INTO contra_transactions (debit, transaction_type, description, transaction_id, bank_id, bank_name, bank_account_name, account_name) "
     . "VALUES ('$price', 'Invoice', 'Invoice. $orderNumber', '$orderNumber', '$bank_id', '$bank_name', '$bank_acc', '$payacc')") or die(mysqli_error($con));
 
-    mysqli_query($con, "UPDATE bank SET credit = credit + $price, total = total + $price WHERE id = $bank_id") or die(mysqli_error($con));
+    mysqli_query($con, "UPDATE bank SET debit = debit + $price, total = total + $price WHERE id = $bank_id") or die(mysqli_error($con));
 
     $sales_id = mysqli_insert_id($con);
     $_SESSION['sid'] = $sales_id;

@@ -3,24 +3,45 @@ error_reporting(0);
 
 include('../dist/includes/dbcon.php');
 
-
+$id = $_GET['id'];
 $description = $_POST['description'];
 $amount = $_POST['amount'];
-$category = $_POST['category'];
+$transid = $_POST['transid'];
 $payee = $_POST['supplier'];
-$payeeId = $_POST['supId'];
-$pay = $_POST['pay'];
-// $date =  date('Y-m-d H:i:s');
-// $date =  $_POST['date'];
-$pa = $_POST['paName'];
-$paId = $_POST['pa'];
-$expense = 'decrease';
+$trans_type = $_POST['category'];
+$pay = $_POST['pm'];
+$paId = $_POST['payment_account'];
+$date = $_POST['date'];
+$fc = $_POST['file'];
+$namec = $_POST['name'];
+
 $query = mysqli_query($con, "SELECT * FROM payment_account WHERE id = '$paId'") or die(mysqli_error($con));
 $row = mysqli_fetch_assoc($query);
-$pa = $row['name']; 
+$pa = $row['name'];
 $balance = $row['balance'];
 
+$queryb = mysqli_query($con, "SELECT * FROM bank WHERE id = '$id'") or die(mysqli_error($con));
+$rowb = mysqli_fetch_assoc($queryb);
+$bank_name = $rowb['bank_name'];
+$acc_name = $rowb['account_name'];
 
+if ($trans_type == "Invoice") {
+	// Insert into 'credit' column if it's an Invoice
+	mysqli_query($con, "INSERT INTO contra_transactions(description, debit, transaction_type, transaction_id, bank_name, bank_id, account_name, date, status)
+        VALUES('$description', '$amount', '$trans_type', '$transid', '$bank_name', '$id', '$acc_name', '$date', 'Confirmed')") or die(mysqli_error($con));
+
+	// Increase the 'total' in the 'bank' table
+	mysqli_query($con, "UPDATE bank SET total = total + '$amount' WHERE id = '$id'") or die(mysqli_error($con));
+} elseif ($trans_type == "Payment") {
+	// Insert into 'debit' column if it's a Payment
+	mysqli_query($con, "INSERT INTO contra_transactions(description, credit, transaction_type, transaction_id, bank_name, bank_id, account_name, date, status)
+        VALUES('$description', '$amount', '$trans_type', '$transid', '$bank_name', '$id', '$acc_name', '$date', 'Confirmed')") or die(mysqli_error($con));
+
+	// Update the 'credit' and 'total' in the 'bank' table
+	mysqli_query($con, "UPDATE bank SET credit = credit + '$amount', total = total - '$amount' WHERE id = '$id'") or die(mysqli_error($con));
+}
+
+// File Upload Handling
 if (!empty($_FILES['file']['name'])) {
 	$upload_id = round(microtime(true) * 1000);
 	$file = $upload_id . "-" . $_FILES['file']['name'];
@@ -42,23 +63,20 @@ if (!empty($_FILES['file']['name'])) {
 
 	// Move the file if it was uploaded
 	if (move_uploaded_file($file_loc, $folder . $Certificate)) {
-		mysqli_query($con, "INSERT INTO expenses_tb(description,amount,category, payment_method,attachment,supplier_id,payment_acc_name, pay_acc_id,balance) 
-				VALUES('$description','$amount','$category','$pay','$Certificate','$payee','$pa', '$paId', '$balance')")or die(mysqli_error($con));
-
-mysqli_query($con, "UPDATE payment_account SET balance = balance - '$amount' WHERE id = '$paId'") or die(mysqli_error($con));
-echo "<script type='text/javascript'>alert('Successfully added new Expense!');</script>";
-echo "<script>document.location='expenses.php'</script>";
+		mysqli_query($con, "UPDATE contra_transactions SET attachment = '$Certificate' WHERE transaction_id = '$transid'") or die(mysqli_error($con));
 	}
-} else {
-	// No file was uploaded, but still process the form data
-	mysqli_query($con, "INSERT INTO expenses_tb(description,amount,category, payment_method, supplier_id, payment_acc_name, pay_acc_id,balance) 
-				VALUES('$description','$amount','$category','$pay','$payee','$pa','$paId', '$balance')")or die(mysqli_error($con));
 
-mysqli_query($con, "UPDATE payment_account SET balance = balance - '$amount' WHERE id = '$paId'") or die(mysqli_error($con));
-
-echo "<script type='text/javascript'>alert('Successfully added new Expense!');</script>";
-echo "<script>document.location='expenses.php'</script>";
 	
 }
 
-?>
+// Update the balance in the 'payment_account' table
+mysqli_query($con, "UPDATE payment_account SET balance = balance + '$amount' WHERE id = '$paId'") or die(mysqli_error($con));
+
+echo "<script type='text/javascript'>alert('Successfully added');</script>";
+// echo "<script>document.location='bank_account_history.php?id=$id'</script>";
+
+echo "microtime(true) value: " . microtime(true) . "<br>";
+echo "upload_id: " . $upload_id . "<br>";
+
+echo "Original file name: $file<br>";
+	echo "Sanitized file name: $Certificate<br>";

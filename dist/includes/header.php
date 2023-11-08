@@ -328,7 +328,7 @@ $permissions = mysqli_fetch_assoc($userGroup);
                             <li>
                                 <ul class="menu">
                                     <li>
-                                        <a href="groups-add.php">
+                                        <a href="../">
                                             <i class="glyphicon glyphicon-plus text-info"></i> Add Groups
                                         </a>
                                     </li>

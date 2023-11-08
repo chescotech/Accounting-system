@@ -23,7 +23,7 @@ $balance =$low['balance'];
 $bank_id = $_POST['selected_bank'];
 $bank_acc = $_POST['selected_account'];
 $payacc = $_POST['pa'];
-$price = $_POST['total'];
+$price = $_POST['total_price'];
 
 $bankquery = mysqli_query($con, "SELECT * FROM bank WHERE id='$bank_id'") or die(mysqli_error($con));
 $brow = mysqli_fetch_array($bankquery);
@@ -42,10 +42,10 @@ if ($amount_due >= $amount_due) {
         $discount_type = $row['discount_type'];
 
         
-        mysqli_query($con, "INSERT INTO contra_transactions (credit, transaction_type, description, transaction_id, bank_id, bank_name, bank_account_name, account_name) "
+        mysqli_query($con, "INSERT INTO contra_transactions (debit, transaction_type, description, transaction_id, bank_id, bank_name, bank_account_name, account_name) "
     . "VALUES ('$price', 'Invoice', 'Invoice. $orderNumber', '$orderNumber', '$bank_id', '$bank_name', '$bank_acc', '$payacc')") or die(mysqli_error($con));
 
-    mysqli_query($con, "UPDATE bank SET credit = credit + $price, total = total + $price WHERE id = $bank_id") or die(mysqli_error($con));
+    mysqli_query($con, "UPDATE bank SET debit = debit + $price, total = total + $price WHERE id = $bank_id") or die(mysqli_error($con));
 
         mysqli_query($con, "INSERT INTO sales(customer_id,user_id,discount,amount_due,total,date_added,modeofpayment,branch_id,order_no,pay_acc_id,balance) 
         VALUES('$cid','$id','$discount','$price','$new_total','$date','$payment_mode_id','$branch','$orderNumber', '$pay_acc_id','$balance')")or die(mysqli_error($con));

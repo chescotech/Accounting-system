@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 session_start();
 $id = $_SESSION['id'];
 $branch = $_SESSION['branch'];
@@ -12,7 +12,7 @@ $cid = $_POST['cid'];
 
 $user_id = $_SESSION['id'];
 $barcode = $_POST['barcode'];
-  $selected_cust_id = $_SESSION['selected_cust_id'];
+$selected_cust_id = $_SESSION['selected_cust_id'];
 
 if ($barcode != "") {
     $qty = "1";
