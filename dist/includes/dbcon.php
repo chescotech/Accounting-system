@@ -1,5 +1,4 @@
 <?php
- //$con = mysqli_connect("localhost","root","","chescote_accounting_db");
  
   $con = mysqli_connect("localhost","root","","moringa_db_");
   
