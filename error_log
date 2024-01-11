@@ -8,3 +8,57 @@
 [01-Dec-2021 14:16:12 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /home/chescote/accounting.chesco-tech.com/login.php on line 2
 [02-Dec-2021 13:25:21 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /home/chescote/accounting.chesco-tech.com/login.php on line 2
 [06-Dec-2021 12:33:07 UTC] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /home/chescote/accounting.chesco-tech.com/login.php on line 2
+[07-Nov-2023 14:47:54 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'moringa'@'cloud204.cloudwebhosting.com' (using password: YES) in /home9/chescopos/uat.chescopos.com/dist/includes/dbcon.php on line 4
+[07-Nov-2023 16:47:54 Africa/Lusaka] PHP Fatal error:  Uncaught TypeError: mysqli_real_escape_string(): Argument #1 ($mysql) must be of type mysqli, bool given in /home9/chescopos/uat.chescopos.com/login.php:468
+Stack trace:
+#0 /home9/chescopos/uat.chescopos.com/login.php(468): mysqli_real_escape_string(false, 'admin')
+#1 {main}
+  thrown in /home9/chescopos/uat.chescopos.com/login.php on line 468
+[07-Nov-2023 17:02:26 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 485
+[07-Nov-2023 17:02:26 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 486
+[07-Nov-2023 17:02:26 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 487
+[07-Nov-2023 17:02:26 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 488
+[07-Nov-2023 17:02:26 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 489
+[07-Nov-2023 17:02:26 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 492
+[07-Nov-2023 17:02:26 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 493
+[07-Nov-2023 17:02:26 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 494
+[07-Nov-2023 19:16:21 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 485
+[07-Nov-2023 19:16:21 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 486
+[07-Nov-2023 19:16:21 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 487
+[07-Nov-2023 19:16:21 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 488
+[07-Nov-2023 19:16:21 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 489
+[07-Nov-2023 19:16:21 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 492
+[07-Nov-2023 19:16:21 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 493
+[07-Nov-2023 19:16:21 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 494
+[08-Nov-2023 10:48:04 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 485
+[08-Nov-2023 10:48:04 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 486
+[08-Nov-2023 10:48:04 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 487
+[08-Nov-2023 10:48:04 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 488
+[08-Nov-2023 10:48:04 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 489
+[08-Nov-2023 10:48:04 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 492
+[08-Nov-2023 10:48:04 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 493
+[08-Nov-2023 10:48:04 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 494
+[08-Nov-2023 10:48:14 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 485
+[08-Nov-2023 10:48:14 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 486
+[08-Nov-2023 10:48:14 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 487
+[08-Nov-2023 10:48:14 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 488
+[08-Nov-2023 10:48:14 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 489
+[08-Nov-2023 10:48:14 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 492
+[08-Nov-2023 10:48:14 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 493
+[08-Nov-2023 10:48:14 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 494
+[10-Nov-2023 09:44:27 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 485
+[10-Nov-2023 09:44:27 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 486
+[10-Nov-2023 09:44:27 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 487
+[10-Nov-2023 09:44:27 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 488
+[10-Nov-2023 09:44:27 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 489
+[10-Nov-2023 09:44:27 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 492
+[10-Nov-2023 09:44:27 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 493
+[10-Nov-2023 09:44:27 Africa/Lusaka] PHP Warning:  Trying to access array offset on value of type null in /home9/chescopos/uat.chescopos.com/login.php on line 494
+[14-Nov-2023 21:21:13 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home9/chescopos/uat.chescopos.com/dist/includes/dbcon.php on line 4
+[14-Nov-2023 23:21:13 Africa/Lusaka] PHP Fatal error:  Uncaught TypeError: mysqli_real_escape_string(): Argument #1 ($mysql) must be of type mysqli, bool given in /home9/chescopos/uat.chescopos.com/login.php:468
+Stack trace:
+#0 /home9/chescopos/uat.chescopos.com/login.php(468): mysqli_real_escape_string(false, 'admin')
+#1 {main}
+  thrown in /home9/chescopos/uat.chescopos.com/login.php on line 468
+[14-Nov-2023 21:25:09 UTC] PHP Parse error:  syntax error, unexpected identifier "chescopos_moringa_db_", expecting ")" in /home9/chescopos/uat.chescopos.com/dist/includes/dbcon.php on line 4
+[14-Nov-2023 21:25:24 UTC] PHP Parse error:  syntax error, unexpected identifier "chescopos_moringa_db_", expecting ")" in /home9/chescopos/uat.chescopos.com/dist/includes/dbcon.php on line 4
